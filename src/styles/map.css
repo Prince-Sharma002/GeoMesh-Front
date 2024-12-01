@@ -1,0 +1,154 @@
+/* Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+  }
+  
+  .map-container {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  /* Tag Polygon Sidebar */
+  .tagpolygondiv {
+    width: 250px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-right: 1px solid #e0e0e0;
+    overflow-y: auto;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  }
+  
+  .tagpolygondiv h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #4a90e2;
+    padding-bottom: 10px;
+  }
+  
+  .tagpolygondiv select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+  }
+  
+  .tagpolygondiv ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .tagpolygondiv li {
+    background-color: #f4f4f4;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 4px;
+  }
+  
+  /* Map Controls */
+  .map-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .map-controls button {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .map-controls button:hover {
+    background-color: #357abd;
+  }
+  
+  .map-controls p {
+    background-color: white;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  /* Popup Styles */
+  .leaflet-popup-content {
+    font-size: 14px;
+  }
+  
+  .leaflet-popup-content button {
+    margin: 5px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .leaflet-popup-content textarea {
+    width: 100%;
+    margin: 10px 0;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+  }
+  
+  /* Cursor Coordinates Display */
+  .cursor-coordinates {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1000;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .map-container {
+      flex-direction: column;
+    }
+  
+    .tagpolygondiv {
+      width: 100%;
+      height: auto;
+      order: 2;
+    }
+  
+    .map-controls {
+      position: relative;
+      top: auto;
+      right: auto;
+      flex-direction: row;
+      justify-content: center;
+      margin: 10px 0;
+    }
+  }
+  
+  /* Utility Classes */
+  .text-center {
+    text-align: center;
+  }
+  
+  .mt-10 {
+    margin-top: 10px;
+  }
+  
+  .mb-10 {
+    margin-bottom: 10px;
+  }

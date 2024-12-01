@@ -6,7 +6,6 @@ import L from 'leaflet';
 import { EditControl } from 'react-leaflet-draw';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
-import "../styles/map.css"
 
 // Fix for default marker icon in React
 delete L.Icon.Default.prototype._getIconUrl;
@@ -84,19 +83,12 @@ const GeolocationMap = () => {
   };
   
   useEffect(() => {
-    settagPolygons([]);
+    // Fetch polygons whenever the selectedTag changes
     if (selectedTag) {
-   
       axios
         .get(`http://localhost:5000/api/polygons/tag?tag=${selectedTag}`)
-        .then(response => {
-          settagPolygons(response.data);
-          
-        })
-        .catch(err => {
-          console.error('Error fetching polygons:', err);
- 
-        });
+        .then(response => settagPolygons(response.data))
+        .catch(err => console.error('Error fetching polygons:', err));
     }
   }, [selectedTag]);
 
@@ -376,6 +368,8 @@ const exportAllToKML = () => {
   const encrypt = askForEncryption();
   downloadFile(kmlFile, 'all_segments.kml', 'application/vnd.google-earth.kml+xml', encrypt);
 };
+
+
 
 
   return (

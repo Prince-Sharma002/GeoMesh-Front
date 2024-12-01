@@ -1,0 +1,72 @@
+
+  
+  form {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-weight: 600;
+  }
+  
+  input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+  }
+  
+  input:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+  }
+  
+  button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #357abd;
+  }
+  
+  p {
+    text-align: center;
+    color: #666;
+    margin-top: 20px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 480px) {
+    form {
+      padding: 20px;
+      margin: 0 15px;
+    }
+  }
+  
+  /* Input Placeholder Styling */
+  ::placeholder {
+    color: #999;
+  }
+  
+  /* Validation and Error States */
+  input:invalid {
+    border-color: #ff6b6b;
+  }

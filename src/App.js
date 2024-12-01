@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 // import SmartAI from './components/SmartAI';
@@ -8,27 +9,44 @@ import 'leaflet/dist/leaflet.css';
 // import Segmentation from './components/Segmentation';
 // import SentinelHubImage from './components/SentinelHubImage';
 import GeolocationMap from './map/GeolocationMap';
+import Signup from './auth/Signup';
+import Signin from './auth/sign';
+import PersonInfo from './info/PersonInfo';
+import DecryptFile from './map/DecryptFile';
+import Sidebar from './map/Sidebar';
+
+
 
 function App() {
   return (
-    <div>
-      {/* <h1>Interactive Semantic Segmentation</h1>
-       <MapContainer center={[51.505, -0.09]} zoom={13} style={{ height: "500px", width: "100%" }}>
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; OpenStreetMap contributors'
-        />
-      </MapContainer> 
-      <SmartAI />
+    <Router>
+    <Routes>
+        <Route path="/" element={ <Signup /> } />
+        <Route path="/signin" element={ <Signin /> } />
+        <Route path="/person-info" element={ <PersonInfo /> } />
+        <Route path="/map" element={ <GeolocationMap /> } />
+        <Route path="/decrypt" element={ <DecryptFile /> } />
+        <Route path="/sidebar" element={ <Sidebar /> } />
+    </Routes>
+  </Router>
+    // <div>
+    //   {/* <h1>Interactive Semantic Segmentation</h1>
+    //    <MapContainer center={[51.505, -0.09]} zoom={13} style={{ height: "500px", width: "100%" }}>
+    //     <TileLayer
+    //       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    //       attribution='&copy; OpenStreetMap contributors'
+    //     />
+    //   </MapContainer> 
+    //   <SmartAI />
 
-      <Segmentation />
-      <WmsIntegration />
-      <SentinelHubImage />
+    //   <Segmentation />
+    //   <WmsIntegration />
+    //   <SentinelHubImage />
       
-      <FeatureSelection /> 
-      <DataExport /> */}
-      <GeolocationMap />
-    </div>
+    //   <FeatureSelection /> 
+    //   <DataExport /> */}
+    //   <GeolocationMap />
+    // </div>
   );
 }
 

@@ -5,8 +5,6 @@ import 'leaflet-draw/dist/leaflet.draw.css';
 import L from 'leaflet';
 import { EditControl } from 'react-leaflet-draw';
 import axios from 'axios';
-import CryptoJS from 'crypto-js';
-import "../styles/map.css"
 
 // Fix for default marker icon in React
 delete L.Icon.Default.prototype._getIconUrl;
@@ -60,10 +58,6 @@ const GeolocationMap = () => {
   const [userDetails, setUserDetails] = useState(null);
   const [name, setname] = useState("");
 
-  const [tags, setTags] = useState(['Farm', 'Rural', 'Urban' , 'Building' , 'Mountain' , 'Vehicle' , 'Road' , 'Water Body' , 'Forest'  ]); // Define available tags
-  const [selectedTag, setSelectedTag] = useState('none');
-  const [tagpolygons, settagPolygons] = useState([]);
-
   const mapLayers = {
     openstreetmap: {
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -82,23 +76,7 @@ const GeolocationMap = () => {
       attribution: '© CartoDB'
     }
   };
-  
-  useEffect(() => {
-    settagPolygons([]);
-    if (selectedTag) {
-   
-      axios
-        .get(`http://localhost:5000/api/polygons/tag?tag=${selectedTag}`)
-        .then(response => {
-          settagPolygons(response.data);
-          
-        })
-        .catch(err => {
-          console.error('Error fetching polygons:', err);
- 
-        });
-    }
-  }, [selectedTag]);
+
 
   useEffect(() => {
     if ('geolocation' in navigator) {
@@ -128,10 +106,10 @@ const GeolocationMap = () => {
       }
     };
 
+
     fetchUserDetails();
     fetchPolygons();
   }, [userDetails , name , setname , setUserDetails]);
-
 
   const fetchPolygons = async () => {
     try {
@@ -184,56 +162,27 @@ const GeolocationMap = () => {
       }
     };  
 
-    const handleSavePolygon = (layer) => {
-      // Display a selection prompt for segment tags
-      const segmentOptions = [
-        'Farm',
-        'Building',
-        'Urban',
-        'Rural',
-        'Mountain',
-        'Vehicle',
-        'Road',
-        'Water Body',
-        'Forest',
-      ];
-      const segment = prompt(
-        `Select a segment tag by entering the number:\n${segmentOptions
-          .map((option, index) => `${index + 1}: ${option}`)
-          .join('\n')}`
-      );
-      const segmentTag = segmentOptions[parseInt(segment, 10) - 1]; // Get the selected tag
-      if (!segmentTag) {
-        alert('Invalid segment selection. Operation canceled.');
-        return;
-      }
-      // Get color input
-      const color = prompt('Enter a color for the polygon (e.g., #FF0000):') || '#3388ff';
-      // Get description input
-      const description = prompt('Enter a description for the polygon:');
-      // Extract coordinates
-      const coordinates = layer.getLatLngs()[0].map((point) => [point.lat, point.lng]); // Convert to GeoJSON format
-      // Calculate polygon area
-      const area = L.GeometryUtil.geodesicArea(layer.getLatLngs()[0]);
-      // Construct the polygon data object
-      const newPolygon = {
-        coordinates: [coordinates], // Wrap in an extra array for GeoJSON compliance
-        description,
-        color,
-        tag : segmentTag, // Add the selected segment tag
-        area,
-        date: new Date(),
-        name: localStorage.getItem('name'),
-        email: localStorage.getItem('email'),
-      };
-      console.log('Saved Polygon:', newPolygon);
-      alert(`Polygon saved with segment: ${segmentTag}`);
+  const handleSavePolygon = (layer) => {
 
-      layer.setStyle({ color });
-      savePolygonToBackend(newPolygon);
-
-    };
     
+    
+    const color = prompt('Enter a color for the polygon (e.g., #FF0000):') || '#3388ff';
+    const description = prompt('Enter a description for the polygon:');
+    const coordinates = layer.getLatLngs()[0].map((point) => [point.lat, point.lng]); // Convert to GeoJSON format
+    const area = L.GeometryUtil.geodesicArea(layer.getLatLngs()[0]); // Calculate polygon area
+    const newPolygon = {
+      coordinates: [coordinates], // Wrap in an extra array for GeoJSON compliance
+      description,
+      color,
+      area,
+      date: new Date(),
+      name : localStorage.getItem('name'),
+      email : localStorage.getItem('email'),
+    };
+
+    layer.setStyle({ color });
+    savePolygonToBackend(newPolygon);
+  };
 
   const savePolygonToBackend = async (polygon) => {
     try {
@@ -254,82 +203,9 @@ const GeolocationMap = () => {
      return totalDistance; // in meters
    };
 
-
-
-// Password for encryption
-const PASSWORD = '1234';
-
-const encryptData = (data, password) => {
-  return CryptoJS.AES.encrypt(data, password).toString();
-};
-
-const downloadFile = (data, filename, type, encrypted = false) => {
-  let fileContent = data;
-
-  if (encrypted) {
-    fileContent = encryptData(data, PASSWORD);
-  }
-
-  const blob = new Blob([fileContent], { type });
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = filename;
-  link.click();
-};
-
-const askForEncryption = () => {
-  return window.confirm('Do you want to encrypt the export file?');
-};
-
-const exportToGeoJSON = (polygon) => {
-  const geojson = {
-    type: 'Feature',
-    properties: {
-      description: polygon.description,
-      color: polygon.color,
-      area: polygon.area,
-      likes: polygon.likes,
-      reviews: polygon.reviews,
-    },
-    geometry: {
-      type: 'Polygon',
-      coordinates: polygon.coordinates,
-    },
-  };
-  const geojsonString = JSON.stringify(geojson);
-  const encrypt = askForEncryption();
-  downloadFile(geojsonString, 'segment.geojson', 'application/geo+json', encrypt);
-};
-
-const exportToKML = (polygon) => {
-  const kml = `
-    <Placemark>
-      <name>${polygon.description}</name>
-      <Style><LineStyle><color>${polygon.color}</color></LineStyle></Style>
-      <Polygon>
-        <outerBoundaryIs>
-          <LinearRing>
-            <coordinates>
-              ${polygon.coordinates[0]
-                .map(([lng, lat]) => `${lng},${lat},0`)
-                .join(' ')}
-            </coordinates>
-          </LinearRing>
-        </outerBoundaryIs>
-      </Polygon>
-    </Placemark>`;
-  const kmlFile = `<?xml version="1.0" encoding="UTF-8"?>
-    <kml xmlns="http://www.opengis.net/kml/2.2">
-      <Document>${kml}</Document>
-    </kml>`;
-  const encrypt = askForEncryption();
-  downloadFile(kmlFile, 'segment.kml', 'application/vnd.google-earth.kml+xml', encrypt);
-};
-
-const exportAllToGeoJSON = () => {
-  const geojson = {
-    type: 'FeatureCollection',
-    features: polygons.map((polygon) => ({
+  // Export Functions
+  const exportToGeoJSON = (polygon) => {
+    const geojson = {
       type: 'Feature',
       properties: {
         description: polygon.description,
@@ -342,75 +218,93 @@ const exportAllToGeoJSON = () => {
         type: 'Polygon',
         coordinates: polygon.coordinates,
       },
-    })),
+    };
+    downloadFile(JSON.stringify(geojson), 'segment.geojson', 'application/geo+json');
   };
-  const geojsonString = JSON.stringify(geojson);
-  const encrypt = askForEncryption();
-  downloadFile(geojsonString, 'all_segments.geojson', 'application/geo+json', encrypt);
-};
 
-const exportAllToKML = () => {
-  const kmlFile = `<?xml version="1.0" encoding="UTF-8"?>
-    <kml xmlns="http://www.opengis.net/kml/2.2">
-      <Document>
-        ${polygons
-          .map((polygon) => `
-            <Placemark>
-              <name>${polygon.description}</name>
-              <Style><LineStyle><color>${polygon.color}</color></LineStyle></Style>
-              <Polygon>
-                <outerBoundaryIs>
-                  <LinearRing>
-                    <coordinates>
-                      ${polygon.coordinates[0]
-                        .map(([lng, lat]) => `${lng},${lat},0`)
-                        .join(' ')}
-                    </coordinates>
-                  </LinearRing>
-                </outerBoundaryIs>
-              </Polygon>
-            </Placemark>`)
-          .join('\n')}
-      </Document>
-    </kml>`;
-  const encrypt = askForEncryption();
-  downloadFile(kmlFile, 'all_segments.kml', 'application/vnd.google-earth.kml+xml', encrypt);
-};
+  const exportToKML = (polygon) => {
+    const kml = `
+      <Placemark>
+        <name>${polygon.description}</name>
+        <Style><LineStyle><color>${polygon.color}</color></LineStyle></Style>
+        <Polygon>
+          <outerBoundaryIs>
+            <LinearRing>
+              <coordinates>
+                ${polygon.coordinates[0]
+                  .map(([lng, lat]) => `${lng},${lat},0`)
+                  .join(' ')}
+              </coordinates>
+            </LinearRing>
+          </outerBoundaryIs>
+        </Polygon>
+      </Placemark>`;
+    const kmlFile = `<?xml version="1.0" encoding="UTF-8"?>
+      <kml xmlns="http://www.opengis.net/kml/2.2">
+        <Document>${kml}</Document>
+      </kml>`;
+    downloadFile(kmlFile, 'segment.kml', 'application/vnd.google-earth.kml+xml');
+  };
 
+  const exportAllToGeoJSON = () => {
+    const geojson = {
+      type: 'FeatureCollection',
+      features: polygons.map((polygon) => ({
+        type: 'Feature',
+        properties: {
+          description: polygon.description,
+          color: polygon.color,
+          area: polygon.area,
+          likes: polygon.likes,
+          reviews: polygon.reviews,
+        },
+        geometry: {
+          type: 'Polygon',
+          coordinates: polygon.coordinates,
+        },
+      })),
+    };
+    downloadFile(JSON.stringify(geojson), 'all_segments.geojson', 'application/geo+json');
+  };
+
+  const exportAllToKML = () => {
+    const kmlFile = `<?xml version="1.0" encoding="UTF-8"?>
+      <kml xmlns="http://www.opengis.net/kml/2.2">
+        <Document>
+          ${polygons
+            .map((polygon) => `
+              <Placemark>
+                <name>${polygon.description}</name>
+                <Style><LineStyle><color>${polygon.color}</color></LineStyle></Style>
+                <Polygon>
+                  <outerBoundaryIs>
+                    <LinearRing>
+                      <coordinates>
+                        ${polygon.coordinates[0]
+                          .map(([lng, lat]) => `${lng},${lat},0`)
+                          .join(' ')}
+                      </coordinates>
+                    </LinearRing>
+                  </outerBoundaryIs>
+                </Polygon>
+              </Placemark>`)
+            .join('\n')}
+        </Document>
+      </kml>`;
+    downloadFile(kmlFile, 'all_segments.kml', 'application/vnd.google-earth.kml+xml');
+  };
+
+
+  const downloadFile = (data, filename, type) => {
+    const blob = new Blob([data], { type });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+  };
 
   return (
     <div className="map-container">
-
-<div className='tagpolygondiv' style={{ width: '250px', padding: '20px', backgroundColor: '#f5f5f5', borderRight: '1px solid #ddd' }}>
-      <h3>Filter by Tag</h3>
-      <select
-        value={selectedTag}
-        onChange={e => setSelectedTag(e.target.value)}
-        style={{ width: '100%', padding: '8px', marginBottom: '20px' }}
-      >
-        {tags.map(tag => (
-          <option key={tag} value={tag}>
-            {tag}
-          </option>
-        ))}
-      </select>
-
-      <h4>Polygons</h4>
-      {tagpolygons.length > 0 ? (
-        <ul>
-          {tagpolygons.map(polygon => (
-            <li key={polygon._id} style={{ marginBottom: '10px' }}>
-              <strong>{polygon.description}</strong>
-              <p>Area: {polygon.area}</p>
-              <p>Likes: {polygon.likes}</p>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No polygons found for the selected tag.</p>
-      )}
-    </div>
-
     <div className="map-controls">      
         <button onClick={exportAllToGeoJSON}>Export All to GeoJSON</button>
         <button onClick={exportAllToKML}>Export All to KML</button>
@@ -478,9 +372,7 @@ const exportAllToKML = () => {
                 <p><strong>Description:</strong> {polygon.description}</p>
                 <p><strong>Username:</strong> {polygon.name}</p>
                 <p><strong>Email:</strong> {polygon.email}</p>
-                <p><strong>Tag:</strong> {polygon.tag}</p>
                 <p><strong>Color:</strong> {polygon.color}</p>
-                <p><strong>Date:</strong> {polygon.date}</p>
                 <p><strong>Area:</strong> {polygon.area.toFixed(2)} sq. meters</p>
                 <p><strong>Likes:</strong> {polygon.likes}</p>
                 <p><strong>Reviews:</strong></p>
@@ -505,6 +397,8 @@ const exportAllToKML = () => {
                 >
                   Delete Polygon
                 </button>
+
+
               </div>
             </Popup>
 
