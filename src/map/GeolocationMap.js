@@ -7,6 +7,7 @@ import { EditControl } from 'react-leaflet-draw';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
 import "../styles/map.css"
+import {Link} from "react-router-dom";
 
 // Fix for default marker icon in React
 delete L.Icon.Default.prototype._getIconUrl;
@@ -399,10 +400,16 @@ const exportAllToKML = () => {
       {tagpolygons.length > 0 ? (
         <ul>
           {tagpolygons.map(polygon => (
-            <li key={polygon._id} style={{ marginBottom: '10px' }}>
+            <li key={polygon._id} className='popupDiv' style={{ marginBottom: '10px'  }}>
               <strong>{polygon.description}</strong>
-              <p>Area: {polygon.area}</p>
-              <p>Likes: {polygon.likes}</p>
+                <p><strong>Username:</strong> {polygon.name}</p>
+                <p><strong>Email:</strong> {polygon.email}</p>
+                <p><strong>Tag:</strong> {polygon.tag}</p>
+                <p><strong>Color:</strong> {polygon.color}</p>
+                <p><strong>Date:</strong> {polygon.date}</p>
+                <p><strong>Area:</strong> {polygon.area.toFixed(2)} sq. meters</p>
+                <p><strong>Likes:</strong> {polygon.likes}</p>
+                <p><strong>Reviews:</strong></p>
             </li>
           ))}
         </ul>
@@ -414,11 +421,15 @@ const exportAllToKML = () => {
     <div className="map-controls">      
         <button onClick={exportAllToGeoJSON}>Export All to GeoJSON</button>
         <button onClick={exportAllToKML}>Export All to KML</button>
+        <Link to="/person-info">
+          <button>User</button>
+        </Link>
+        
         {userDetails ? (
         <div>
-          <p>Welcome, {userDetails.name}</p>
+          {/* <p>Welcome, {userDetails.name}</p>
           <p>Email: {userDetails.email}</p>
-          <p>Date of Birth: {userDetails.dateOfBirth}</p>
+          <p>Date of Birth: {userDetails.dateOfBirth}</p> */}
           {/* Render the map or other components */}
         </div>
       ) : (
@@ -474,7 +485,7 @@ const exportAllToKML = () => {
                 >
 
 <Popup>
-              <div>
+              <div className='popupDiv'>
                 <p><strong>Description:</strong> {polygon.description}</p>
                 <p><strong>Username:</strong> {polygon.name}</p>
                 <p><strong>Email:</strong> {polygon.email}</p>

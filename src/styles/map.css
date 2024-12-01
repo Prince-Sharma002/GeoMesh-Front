@@ -9,6 +9,7 @@ body {
   .map-container {
     display: flex;
     height: 100vh;
+    width: 100vw;
     overflow: hidden;
   }
   
@@ -53,8 +54,8 @@ body {
   /* Map Controls */
   .map-controls {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 20px;
+    right: 60px;
     z-index: 1000;
     display: flex;
     flex-direction: column;
@@ -62,7 +63,7 @@ body {
   }
   
   .map-controls button {
-    background-color: #4a90e2;
+    background-color: #000000;
     color: white;
     border: none;
     padding: 10px 15px;
@@ -86,6 +87,7 @@ body {
   /* Popup Styles */
   .leaflet-popup-content {
     font-size: 14px;
+    text-align: left;
   }
   
   .leaflet-popup-content button {
@@ -104,6 +106,12 @@ body {
     border: 1px solid #ddd;
     border-radius: 4px;
     resize: vertical;
+  }
+
+  .popupDiv{
+    p{
+        text-align: left;
+    }
   }
   
   /* Cursor Coordinates Display */

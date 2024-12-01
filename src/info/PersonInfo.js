@@ -94,7 +94,7 @@ const PersonInfo = () => {
                   <p>No reviews available.</p>
                 )}
               </div>
-              <button onClick={() => handleDelete(polygon._id)}>Delete</button>
+              <button className='delete-button' onClick={() => handleDelete(polygon._id)}>Delete</button>
             </li>
           ))}
         </ul>
