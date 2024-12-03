@@ -14,6 +14,9 @@ import Signin from './auth/sign';
 import PersonInfo from './info/PersonInfo';
 import DecryptFile from './map/DecryptFile';
 import Sidebar from './map/Sidebar';
+import MapComponent from './map/MapComponent';
+import AdminDashboard from './admin/AdminDashboard';
+
 
 
 
@@ -27,6 +30,8 @@ function App() {
         <Route path="/map" element={ <GeolocationMap /> } />
         <Route path="/decrypt" element={ <DecryptFile /> } />
         <Route path="/sidebar" element={ <Sidebar /> } />
+        <Route path="/map2" element={ <MapComponent /> } />
+        <Route path="/admin" element={ <AdminDashboard /> } />
     </Routes>
   </Router>
     // <div>

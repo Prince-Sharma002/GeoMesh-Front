@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
+import "../styles/sidebar.css"
 
 const Sidebar = () => {
-  const [tags, setTags] = useState(['Farm', 'Rural', 'Urban' , 'Building' , 'Mountain' , 'Vehicle' , 'Road' , 'Water Body' , 'Forest'  ]); // Define available tags
+  const [tags, setTags] = useState(['Farm', 'Rural', 'Urban' , 'Building' , 'Mountain' , 'Vehicle' , 'Road' , 'Water Body' , 'Forest' , 'Others' ]); // Define available tags
   const [selectedTag, setSelectedTag] = useState('none');
   const [polygons, setPolygons] = useState([]);
 
@@ -105,7 +106,7 @@ const exportAllToKML = () => {
 
 
   return (
-    <div style={{ width: '250px', padding: '20px', backgroundColor: '#f5f5f5', borderRight: '1px solid #ddd' }}>
+    <div className='sidebar' style={{ width: '250px', padding: '20px', backgroundColor: '#f5f5f5', borderRight: '1px solid #ddd' }}>
       <h3>Filter by Tag</h3>
       <button onClick={exportAllToGeoJSON}>Export All to GeoJSON</button>
       <button onClick={exportAllToKML}>Export All to KML</button>

@@ -61,7 +61,7 @@ const GeolocationMap = () => {
   const [userDetails, setUserDetails] = useState(null);
   const [name, setname] = useState("");
 
-  const [tags, setTags] = useState(['Farm', 'Rural', 'Urban' , 'Building' , 'Mountain' , 'Vehicle' , 'Road' , 'Water Body' , 'Forest'  ]); // Define available tags
+  const [tags, setTags] = useState(['Farm', 'Rural', 'Urban' , 'Building' , 'Mountain' , 'Vehicle' , 'Road' , 'Water Body' , 'Forest' , 'Others' ]); // Define available tags
   const [selectedTag, setSelectedTag] = useState('none');
   const [tagpolygons, settagPolygons] = useState([]);
 
@@ -131,7 +131,8 @@ const GeolocationMap = () => {
 
     fetchUserDetails();
     fetchPolygons();
-  }, [userDetails , name , setname , setUserDetails]);
+    
+  }, [userDetails , name , setname , setUserDetails ]);
 
 
   const fetchPolygons = async () => {
@@ -197,6 +198,7 @@ const GeolocationMap = () => {
         'Road',
         'Water Body',
         'Forest',
+        'Others'
       ];
       const segment = prompt(
         `Select a segment tag by entering the number:\n${segmentOptions
@@ -253,9 +255,10 @@ const GeolocationMap = () => {
        totalDistance += L.latLng(latlngs[i]).distanceTo(L.latLng(latlngs[i + 1]));
      }
      return totalDistance; // in meters
-   };
 
+    };
 
+    
 
 // Password for encryption
 const PASSWORD = '1234';
@@ -379,6 +382,84 @@ const exportAllToKML = () => {
 };
 
 
+const exporttagToGeoJSON = () => {
+  const geojson = {
+    type: 'FeatureCollection',
+    features: tagpolygons.map((polygon) => ({
+      type: 'Feature',
+      properties: {
+        description: polygon.description,
+        color: polygon.color,
+        area: polygon.area,
+        likes: polygon.likes,
+        reviews: polygon.reviews,
+      },
+      geometry: {
+        type: 'Polygon',
+        coordinates: polygon.coordinates,
+      },
+    })),
+  };
+  const geojsonString = JSON.stringify(geojson);
+  const encrypt = askForEncryption();
+  downloadFile(geojsonString, 'all_segments.geojson', 'application/geo+json', encrypt);
+};
+
+const exporttagToKML = () => {
+  const kmlFile = `<?xml version="1.0" encoding="UTF-8"?>
+    <kml xmlns="http://www.opengis.net/kml/2.2">
+      <Document>
+        ${tagpolygons
+          .map((polygon) => `
+            <Placemark>
+              <name>${polygon.description}</name>
+              <Style><LineStyle><color>${polygon.color}</color></LineStyle></Style>
+              <Polygon>
+                <outerBoundaryIs>
+                  <LinearRing>
+                    <coordinates>
+                      ${polygon.coordinates[0]
+                        .map(([lng, lat]) => `${lng},${lat},0`)
+                        .join(' ')}
+                    </coordinates>
+                  </LinearRing>
+                </outerBoundaryIs>
+              </Polygon>
+            </Placemark>`)
+          .join('\n')}
+      </Document>
+    </kml>`;
+  const encrypt = askForEncryption();
+  downloadFile(kmlFile, 'all_segments.kml', 'application/vnd.google-earth.kml+xml', encrypt);
+};
+
+
+const handleUpdatePolygon = async (id, coordinates, tag, color) => {
+  try {
+    const updatedPolygon = {
+      tag,
+      color,
+      coordinates: [coordinates], // GeoJSON format requires a nested array
+    };
+
+    const response = await axios.put(`http://localhost:5000/api/polygon/${id}`, updatedPolygon);
+
+    // Update state with the new polygon data from the response
+    setPolygons((prevPolygons) =>
+      prevPolygons.map((poly) =>
+        poly._id === id ? { ...poly, ...response.data } : poly
+      )
+    );
+
+    alert('Polygon updated successfully!');
+  } catch (err) {
+    console.error('Error updating polygon:', err.message);
+    alert('Failed to update polygon. Check console for details.');
+  }
+};
+
+
+
   return (
     <div className="map-container">
 
@@ -395,6 +476,10 @@ const exportAllToKML = () => {
           </option>
         ))}
       </select>
+
+      <button style={{marginBottom : "1rem"}} onClick={() => exporttagToGeoJSON()}>Export to GeoJSON</button>
+
+      <button onClick={() => exporttagToKML()}>Export to KML</button>
 
       <h4>Polygons</h4>
       {tagpolygons.length > 0 ? (
@@ -423,6 +508,9 @@ const exportAllToKML = () => {
         <button onClick={exportAllToKML}>Export All to KML</button>
         <Link to="/person-info">
           <button>User</button>
+        </Link>
+        <Link to="/decrypt">
+          <button>Decrypt</button>
         </Link>
         
         {userDetails ? (
@@ -462,31 +550,86 @@ const exportAllToKML = () => {
 
           <LayersControl.Overlay checked name="Polygons">
             <FeatureGroup>
-              <EditControl
-                position="topright"
-                onCreated={(e) => {
-                  const layer = e.layer;
-                  handleSavePolygon(layer);
-                }}
-                draw={{
-                  rectangle: true,
-                  polygon: true,
-                  circle: false,
-                  marker: measurementMode, // Enable marker only in measurement mode
-                  polyline: measurementMode // Enable polyline for measurements
-                }}
-              />
+            <EditControl
+  position="topright"
+  onCreated={(e) => {
+    const layer = e.layer;
+    handleSavePolygon(layer);
+  }}
+  
+  onEdited={(e) => {
+    
+    const layers = e.layers;
+
+    // Prompt for tag and color once
+    const segmentOptions = [
+      'Farm',
+      'Building',
+      'Urban',
+      'Rural',
+      'Mountain',
+      'Vehicle',
+      'Road',
+      'Water Body',
+      'Forest',
+      'Others'
+    ];
+    const segment = prompt(
+      `Select a segment tag by entering the number:\n${segmentOptions
+        .map((option, index) => `${index + 1}: ${option}`)
+        .join('\n')}`
+    );
+    const segmentTag = segmentOptions[parseInt(segment, 10) - 1];
+    if (!segmentTag) {
+      alert('Invalid segment selection. Operation canceled.');
+      return;
+    }
+  
+    const color = prompt('Enter a color for the polygon (e.g., #FF0000):') || '#3388ff';
+  
+
+    layers.eachLayer((layer) => {
+      const updatedCoordinates = layer.getLatLngs()[0].map((point) => [point.lat, point.lng]);
+      console.log('Updated Coordinates:', updatedCoordinates);
+  
+      // Handle update logic as before
+      if (layer.options._id) {
+        handleUpdatePolygon(layer.options._id, updatedCoordinates, segmentTag, color);
+      }
+
+      layer.setStyle({ color });
+
+    });
+  }}
+  
+
+  draw={{
+    rectangle: true,
+    polygon: true,
+    circle: false,
+    marker: measurementMode,
+    polyline: measurementMode
+  }}
+/>
               {/* Existing Polygons */}
               {polygons.map((polygon, index) => (
-                <Polygon
-                  key={index}
-                  positions={polygon.coordinates[0].map(([lat, lng]) => [lat, lng])}
-                  pathOptions={{ color: polygon.color }}
-                >
+                
+                 <Polygon
+                 key={polygon._id}
+                 positions={polygon.coordinates[0].map(([lat, lng]) => [lat, lng])}
+                 pathOptions={{ color: polygon.color }}
+                 eventHandlers={{
+                   add: (e) => {
+                     e.target.options._id = polygon._id; // Attach _id when the layer is added to the map
+                   },
+                 }}
+               >
 
 <Popup>
               <div className='popupDiv'>
+
                 <p><strong>Description:</strong> {polygon.description}</p>
+                
                 <p><strong>Username:</strong> {polygon.name}</p>
                 <p><strong>Email:</strong> {polygon.email}</p>
                 <p><strong>Tag:</strong> {polygon.tag}</p>
@@ -510,15 +653,8 @@ const exportAllToKML = () => {
                 <button onClick={() => exportToGeoJSON(polygon)}>Export to GeoJSON</button>
                 <button onClick={() => exportToKML(polygon)}>Export to KML</button>
 
-                <button 
-                  onClick={() => handleDeletePolygon(polygon._id)}
-                  style={{ backgroundColor: 'red', color: 'white' }}
-                >
-                  Delete Polygon
-                </button>
               </div>
             </Popup>
-
 
                 </Polygon>
               ))}

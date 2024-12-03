@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import CryptoJS from 'crypto-js';
+import {Link} from "react-router-dom";
 
 const PASSWORD = '1234'; // The password used for encryption and decryption
 
@@ -63,6 +64,9 @@ const DecryptFile = () => {
   return (
     <div style={{ padding: '20px', border: '1px solid #ccc', borderRadius: '5px' }}>
       <h3>Decrypt GeoJSON/KML File</h3>
+      <Link to="/map" style={{position : "absolute" , right : "2rem" , top : "3rem"}} >
+        <button>Map</button>
+      </Link>
       <input type="file" accept=".geojson,.kml" onChange={handleFileUpload} />
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
       {decryptedContent && (
