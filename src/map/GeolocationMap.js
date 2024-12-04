@@ -74,13 +74,16 @@ const GeolocationMap = () => {
       url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
       attribution: '© Esri WorldImagery'
     },
-    terrain: {
-      url: 'https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{r}.png',
-      attribution: '© Stamen Design, OpenStreetMap'
-    },
     darkMode: {
       url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}{r}.png',
       attribution: '© CartoDB'
+    },
+    wmsExample: {
+      url: 'https://ows.terrestris.de/osm/service', // Example WMS URL (replace with your WMS endpoint)
+      layers: 'SRTM30-Colored', // WMS-specific layer
+      format: 'image/png',
+      transparent: true,
+      attribution: '© GeoServer WMS Example'
     }
   };
   
@@ -606,9 +609,9 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
   draw={{
     rectangle: true,
     polygon: true,
-    circle: false,
+    circle: true,
     marker: measurementMode,
-    polyline: measurementMode
+    polyline: true
   }}
 />
               {/* Existing Polygons */}
