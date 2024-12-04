@@ -16,6 +16,7 @@ import DecryptFile from './map/DecryptFile';
 import Sidebar from './map/Sidebar';
 import MapComponent from './map/MapComponent';
 import AdminDashboard from './admin/AdminDashboard';
+import LeafletMap from './map/LeafletMap';
 
 
 
@@ -32,6 +33,7 @@ function App() {
         <Route path="/sidebar" element={ <Sidebar /> } />
         <Route path="/map2" element={ <MapComponent /> } />
         <Route path="/admin" element={ <AdminDashboard /> } />
+        <Route path="/map3" element={ <LeafletMap /> } />
     </Routes>
   </Router>
     // <div>
