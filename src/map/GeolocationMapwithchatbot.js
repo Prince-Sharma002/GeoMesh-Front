@@ -8,6 +8,12 @@ import axios from 'axios';
 import CryptoJS from 'crypto-js';
 import "../styles/map.css"
 import {Link} from "react-router-dom";
+import Chatbot from 'react-chatbot-kit';
+import config from '../components/Chatbot/config';
+import ActionProvider from '../components/Chatbot/ActionProvider';
+import MessageParser from '../components/Chatbot/MessageParser';
+import ReactFlow, { ReactFlowProvider } from 'reactflow';
+import 'react-chatbot-kit/build/main.css';
 
 // Fix for default marker icon in React
 delete L.Icon.Default.prototype._getIconUrl;
@@ -458,6 +464,7 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
   }
 };
 
+const [showChatbot, setShowChatbot] = useState(false);
 
 
   return (
@@ -663,6 +670,48 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
 
         </LayersControl>
       </MapContainer>
+
+      <button 
+    style={{
+      position: 'absolute',
+      bottom: '20px',
+      right: '20px',
+      width: '200px',
+      height: '50px',
+      backgroundColor: '#007BFF',
+      color: 'white',
+      border: 'none',
+      borderRadius: '5px',
+      cursor: 'pointer',
+      zIndex: 1000
+    }}
+    onClick={() => setShowChatbot(!showChatbot)} // Toggle chatbot visibility
+  >
+    {showChatbot ? 'Close Chat' : 'Open Chat'}
+  </button>
+  {showChatbot && (
+    <div 
+      style={{
+        position: 'absolute',
+        bottom: '80px', // Above the button
+        right: '20px',
+        width: '300px',
+        height: '550px',
+        backgroundColor: 'white',
+        boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+        borderRadius: '10px',
+        zIndex: 1100,
+        overflow: 'hidden'
+      }}
+    >
+      <Chatbot
+        config={config}
+        actionProvider={ActionProvider}
+        messageParser={MessageParser}
+      />
+    </div>
+  )}
+
 
   </div>
   );
