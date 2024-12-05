@@ -9,6 +9,7 @@ import 'leaflet/dist/leaflet.css';
 // import Segmentation from './components/Segmentation';
 // import SentinelHubImage from './components/SentinelHubImage';
 import GeolocationMap from './map/GeolocationMap';
+import GeolocationMapwithchatbot from './map/GeolocationMapwithchatbot';
 import Signup from './auth/Signup';
 import Signin from './auth/sign';
 import PersonInfo from './info/PersonInfo';
@@ -28,7 +29,7 @@ function App() {
         <Route path="/" element={ <Signup /> } />
         <Route path="/signin" element={ <Signin /> } />
         <Route path="/person-info" element={ <PersonInfo /> } />
-        <Route path="/map" element={ <GeolocationMap /> } />
+        <Route path="/map" element={ <GeolocationMapwithchatbot /> } />
         <Route path="/decrypt" element={ <DecryptFile /> } />
         <Route path="/sidebar" element={ <Sidebar /> } />
         <Route path="/map2" element={ <MapComponent /> } />
