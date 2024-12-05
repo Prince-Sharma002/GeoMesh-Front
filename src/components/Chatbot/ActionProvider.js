@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import data from './data';
 import Fuse from 'fuse.js';
-import { exportToGeoJSON } from '../../map/GeolocationMap';
+import { exportToGeoJSON } from '../../map/GeolocationMapwithchatbot';
 
 const ActionProvider = ({ createChatBotMessage, setState, children }) => {
   const apiKey = '5d157c620d9c4089b66b6d74a66d4beb'; // Geocoding API key
@@ -43,7 +43,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
   // Fetch answer based on the user question
   const fetchAnswer = async (question) => {
     const normalizedQuestion = question.trim().toLowerCase();
-
+  
     // Handle specific keywords for flowchart
     if (normalizedQuestion.includes('flowchart')) {
       return { type: 'flowchart' }; // Signal to display a flowchart
@@ -111,7 +111,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
   // Handle user question and perform specific actions
   const handleUserQuestion = async (userQuestion) => {
     const answer = await fetchAnswer(userQuestion);
-
+    const normalizedQuestion = userQuestion.trim().toLowerCase();
+    if (normalizedQuestion === 'export to geojson') {
+      try {
+        const polygon = {}; // Ensure polygon data is defined or fetched
+        exportToGeoJSON(polygon);
+        const message = createChatBotMessage("Export to GeoJSON triggered successfully.");
+        updateState(message);
+      } catch (error) {
+        const errorMessage = createChatBotMessage("Failed to export to GeoJSON. Please try again.");
+        updateState(errorMessage);
+      }
+      return;
+    }
     if (answer.type === 'flowchart') {
       const flowchartMessage = createChatBotMessage("Here is your flowchart:", {
         widget: 'flowchart',

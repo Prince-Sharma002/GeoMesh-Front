@@ -15,6 +15,79 @@ import MessageParser from '../components/Chatbot/MessageParser';
 import ReactFlow, { ReactFlowProvider } from 'reactflow';
 import 'react-chatbot-kit/build/main.css';
 
+
+// Password for encryption
+const PASSWORD = '1234';
+
+const encryptData = (data, password) => {
+  return CryptoJS.AES.encrypt(data, password).toString();
+};
+
+const downloadFile = (data, filename, type, encrypted = false) => {
+  let fileContent = data;
+
+  if (encrypted) {
+    fileContent = encryptData(data, PASSWORD);
+  }
+
+  const blob = new Blob([fileContent], { type });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  link.click();
+};
+
+const askForEncryption = () => {
+  return window.confirm('Do you want to encrypt the export file?');
+};
+
+export const exportToGeoJSON = (polygon) => {
+  const geojson = {
+    type: 'Feature',
+    properties: {
+      description: polygon.description,
+      color: polygon.color,
+      area: polygon.area,
+      likes: polygon.likes,
+      reviews: polygon.reviews,
+    },
+    geometry: {
+      type: 'Polygon',
+      coordinates: polygon.coordinates,
+    },
+  };
+  const geojsonString = JSON.stringify(geojson);
+  const encrypt = askForEncryption();
+  downloadFile(geojsonString, 'segment.geojson', 'application/geo+json', encrypt);
+};
+
+const exportToKML = (polygon) => {
+  const kml = `
+    <Placemark>
+      <name>${polygon.description}</name>
+      <Style><LineStyle><color>${polygon.color}</color></LineStyle></Style>
+      <Polygon>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>
+              ${polygon.coordinates[0]
+                .map(([lng, lat]) => `${lng},${lat},0`)
+                .join(' ')}
+            </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>`;
+  const kmlFile = `<?xml version="1.0" encoding="UTF-8"?>
+    <kml xmlns="http://www.opengis.net/kml/2.2">
+      <Document>${kml}</Document>
+    </kml>`;
+  const encrypt = askForEncryption();
+  downloadFile(kmlFile, 'segment.kml', 'application/vnd.google-earth.kml+xml', encrypt);
+};
+
+
+
 // Fix for default marker icon in React
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -266,75 +339,7 @@ const GeolocationMap = () => {
 
     
 
-// Password for encryption
-const PASSWORD = '1234';
 
-const encryptData = (data, password) => {
-  return CryptoJS.AES.encrypt(data, password).toString();
-};
-
-const downloadFile = (data, filename, type, encrypted = false) => {
-  let fileContent = data;
-
-  if (encrypted) {
-    fileContent = encryptData(data, PASSWORD);
-  }
-
-  const blob = new Blob([fileContent], { type });
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = filename;
-  link.click();
-};
-
-const askForEncryption = () => {
-  return window.confirm('Do you want to encrypt the export file?');
-};
-
-const exportToGeoJSON = (polygon) => {
-  const geojson = {
-    type: 'Feature',
-    properties: {
-      description: polygon.description,
-      color: polygon.color,
-      area: polygon.area,
-      likes: polygon.likes,
-      reviews: polygon.reviews,
-    },
-    geometry: {
-      type: 'Polygon',
-      coordinates: polygon.coordinates,
-    },
-  };
-  const geojsonString = JSON.stringify(geojson);
-  const encrypt = askForEncryption();
-  downloadFile(geojsonString, 'segment.geojson', 'application/geo+json', encrypt);
-};
-
-const exportToKML = (polygon) => {
-  const kml = `
-    <Placemark>
-      <name>${polygon.description}</name>
-      <Style><LineStyle><color>${polygon.color}</color></LineStyle></Style>
-      <Polygon>
-        <outerBoundaryIs>
-          <LinearRing>
-            <coordinates>
-              ${polygon.coordinates[0]
-                .map(([lng, lat]) => `${lng},${lat},0`)
-                .join(' ')}
-            </coordinates>
-          </LinearRing>
-        </outerBoundaryIs>
-      </Polygon>
-    </Placemark>`;
-  const kmlFile = `<?xml version="1.0" encoding="UTF-8"?>
-    <kml xmlns="http://www.opengis.net/kml/2.2">
-      <Document>${kml}</Document>
-    </kml>`;
-  const encrypt = askForEncryption();
-  downloadFile(kmlFile, 'segment.kml', 'application/vnd.google-earth.kml+xml', encrypt);
-};
 
 const exportAllToGeoJSON = () => {
   const geojson = {
