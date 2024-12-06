@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, FeatureGroup, Polygon, Popup, LayersControl , useMapEvents  , useMap , WMSTileLayer } from 'react-leaflet';
-import { SearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import L from 'leaflet';
@@ -17,6 +16,8 @@ L.Icon.Default.mergeOptions({
   iconUrl: require('leaflet/dist/images/marker-icon.png'),
   shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
+
+
 
 
 const CursorCoordinates = () => {
@@ -61,14 +62,12 @@ const GeolocationMap = () => {
   const [coord, setCoord] = useState(null);
   const [userDetails, setUserDetails] = useState(null);
   const [name, setname] = useState("");
-  const [searchQuery, setSearchQuery] = useState(''); // For storing search input
-  const [searchResult, setSearchResult] = useState(null); // Store search result coordinates
-
 
   const [tags, setTags] = useState(['Farm', 'Rural', 'Urban' , 'Building' , 'Mountain' , 'Vehicle' , 'Road' , 'Water Body' , 'Forest' , 'Others' ]); // Define available tags
   const [selectedTag, setSelectedTag] = useState('none');
   const [tagpolygons, settagPolygons] = useState([]);
 
+  
   
   // const mapLayers = {
   //   // openstreetmap: {
@@ -98,7 +97,6 @@ const GeolocationMap = () => {
   //     attribution: '�� OpenLayers'
   //   }
   // };
-
 
   const mapLayers = {
     openstreetmap: {
@@ -152,7 +150,7 @@ const GeolocationMap = () => {
     if (selectedTag) {
    
       axios
-        .get(`https://geomesh-back.onrender.com/api/polygons/tag?tag=${selectedTag}`)
+        .get(`http://localhost:5000/api/polygons/tag?tag=${selectedTag}`)
         .then(response => {
           settagPolygons(response.data);
           
@@ -184,7 +182,7 @@ const GeolocationMap = () => {
       }
 
       try {
-        const response = await axios.get(`https://geomesh-back.onrender.com/api/user?email=${email}`);
+        const response = await axios.get(`http://localhost:5000/api/user?email=${email}`);
         setUserDetails(response.data); // Set user details in state
         setname(response.data.name); // Set name in state
       } catch (err) {
@@ -198,45 +196,9 @@ const GeolocationMap = () => {
   }, [userDetails , name , setname , setUserDetails ]);
 
 
-  const handleSearch = async () => {
-    if (!searchQuery) return;
-
-    try {
-      // Using OpenStreetMap's Nominatim API for geocoding
-      const response = await axios.get(`https://nominatim.openstreetmap.org/search`, {
-        params: {
-          q: searchQuery,
-          format: 'json',
-        },
-      });
-
-      if (response.data.length > 0) {
-        const result = response.data[0];
-        setSearchResult([parseFloat(result.lat), parseFloat(result.lon)]);
-      } else {
-        alert('Location not found!');
-      }
-    } catch (err) {
-      console.error('Error searching location:', err.message);
-    }
-  };
-
-  const PanToSearchResult = () => {
-    const map = useMap();
-
-    useEffect(() => {
-      if (searchResult) {
-        map.setView(searchResult, 13); // Pan to the searched location with zoom level 13
-      }
-    }, [searchResult, map]);
-
-    return null;
-  };
-
-
   const fetchPolygons = async () => {
     try {
-      const response = await axios.get('https://geomesh-back.onrender.com/api/polygons');
+      const response = await axios.get('http://localhost:5000/api/polygons');
       setPolygons(response.data);
     } catch (err) {
       console.error('Error fetching polygons:', err.message);
@@ -246,7 +208,7 @@ const GeolocationMap = () => {
     // New delete polygon function
     const handleDeletePolygon = async (id) => {
       try {
-        await axios.delete(`https://geomesh-back.onrender.com/api/polygon/${id}`);
+        await axios.delete(`http://localhost:5000/api/polygon/${id}`);
         // Remove the deleted polygon from the state
         setPolygons((prevPolygons) => 
           prevPolygons.filter((polygon) => polygon._id !== id)
@@ -258,7 +220,7 @@ const GeolocationMap = () => {
 
     const handleLike = async (id) => {
       try {
-        const response = await axios.put(`https://geomesh-back.onrender.com/api/polygon/${id}/like`);
+        const response = await axios.put(`http://localhost:5000/api/polygon/${id}/like`);
         setPolygons((prevPolygons) =>
           prevPolygons.map((polygon) =>
             polygon._id === id ? { ...polygon, likes: response.data.likes } : polygon
@@ -271,7 +233,7 @@ const GeolocationMap = () => {
   
     const handleAddReview = async (id) => {
       try {
-        const response = await axios.put(`https://geomesh-back.onrender.com/api/polygon/${id}/review`, {
+        const response = await axios.put(`http://localhost:5000/api/polygon/${id}/review`, {
           review: reviewInput,
         });
         setPolygons((prevPolygons) =>
@@ -339,7 +301,7 @@ const GeolocationMap = () => {
 
   const savePolygonToBackend = async (polygon) => {
     try {
-      const response = await axios.post('https://geomesh-back.onrender.com/api/polygon', polygon);
+      const response = await axios.post('http://localhost:5000/api/polygon', polygon);
       setPolygons((prev) => [...prev, response.data]);
     } catch (err) {
       console.error('Error saving polygon:', err.message);
@@ -542,7 +504,7 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
       coordinates: [coordinates], // GeoJSON format requires a nested array
     };
 
-    const response = await axios.put(`https://geomesh-back.onrender.com/api/polygon/${id}`, updatedPolygon);
+    const response = await axios.put(`http://localhost:5000/api/polygon/${id}`, updatedPolygon);
 
     // Update state with the new polygon data from the response
     setPolygons((prevPolygons) =>
@@ -563,8 +525,8 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
   return (
     <div className="map-container">
 
-<div className='tagpolygondiv' style={{ width: '350px', padding: '20px', backgroundColor: '#f5f5f5', borderRight: '1px solid #ddd' }}>
-      <h3>Data Export by Tag</h3>
+<div className='tagpolygondiv' style={{ width: '250px', padding: '20px', backgroundColor: '#f5f5f5', borderRight: '1px solid #ddd' }}>
+      <h3>Filter by Tag</h3>
       <select
         value={selectedTag}
         onChange={e => setSelectedTag(e.target.value)}
@@ -603,30 +565,26 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
       )}
     </div>
 
-    <div style={{ padding: '10px', backgroundColor: '#f5f5f5', zIndex: 1000 }}>
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search for a place..."
-          style={{ width: '200px', padding: '5px', marginRight: '10px' }}
-        />
-        <button onClick={handleSearch} style={{ padding: '5px' }}>
-          Search
-        </button>
-      </div>
-
     <div className="map-controls">      
-          <button onClick={exportAllToGeoJSON}>Export All to GeoJSON</button>
-          <button onClick={exportAllToKML}>Export All to KML</button>
-          <Link to="/person-info">
-            <button>User</button>
-          </Link>
-          <Link to="/decrypt">
-            <button>Decrypt</button>
-          </Link>
-  
-      
+        <button onClick={exportAllToGeoJSON}>Export All to GeoJSON</button>
+        <button onClick={exportAllToKML}>Export All to KML</button>
+        <Link to="/person-info">
+          <button>User</button>
+        </Link>
+        <Link to="/decrypt">
+          <button>Decrypt</button>
+        </Link>
+        
+        {userDetails ? (
+        <div>
+          {/* <p>Welcome, {userDetails.name}</p>
+          <p>Email: {userDetails.email}</p>
+          <p>Date of Birth: {userDetails.dateOfBirth}</p> */}
+          {/* Render the map or other components */}
+        </div>
+      ) : (
+        <p>Loading user details...</p>
+      )}
     </div>
 
       <MapContainer 
@@ -807,7 +765,6 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
           </LayersControl.Overlay>
 
         </LayersControl>
-        {searchResult && <PanToSearchResult />}
       </MapContainer>
 
   </div>

@@ -16,11 +16,11 @@ const PersonInfo = () => {
       }
 
       try {
-        const response = await axios.get(`http://localhost:5000/api/user?email=${email}`);
+        const response = await axios.get(`https://geomesh-back.onrender.com/api/user?email=${email}`);
         setUserDetails(response.data);
 
         // Fetch polygons for the user
-        const polygonResponse = await axios.get(`http://localhost:5000/api/polygons/email?email=${email}`);
+        const polygonResponse = await axios.get(`https://geomesh-back.onrender.com/api/polygons/email?email=${email}`);
         setPolygons(polygonResponse.data);
       } catch (err) {
         console.error('Error fetching data:', err.response?.data?.message || err.message);
@@ -44,7 +44,7 @@ const PersonInfo = () => {
   // Delete polygon by ID
   const handleDelete = async (polygonId) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/api/polygon/${polygonId}`);
+      const response = await axios.delete(`https://geomesh-back.onrender.com/api/polygon/${polygonId}`);
       alert(response.data.message);
 
       // Update the state to remove the deleted polygon

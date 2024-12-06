@@ -70,6 +70,11 @@ body {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    
+  }
+
+  .control-btn{
+    width: 15rem;
   }
   
   .map-controls button:hover {
@@ -133,7 +138,7 @@ body {
     }
   
     .tagpolygondiv {
-      width: 100%;
+      width: 100px;
       height: auto;
       order: 2;
     }
@@ -146,6 +151,11 @@ body {
       justify-content: center;
       margin: 10px 0;
     }
+  }
+
+  .map-controls button {
+    width: 5rem;
+    height: 5rem;
   }
   
   /* Utility Classes */

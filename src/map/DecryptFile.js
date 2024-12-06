@@ -9,11 +9,18 @@ const decryptData = (encryptedData, password) => {
     const bytes = CryptoJS.AES.decrypt(encryptedData, password);
     const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
     if (!decryptedData) throw new Error('Invalid password or corrupted data');
-    return JSON.parse(decryptedData); // Parse as JSON if it was originally a JSON string
+
+    // Try to parse as JSON; if it fails, treat it as plain text (for KML)
+    try {
+      return JSON.parse(decryptedData);
+    } catch (err) {
+      return decryptedData; // Return as plain text for non-JSON content (e.g., KML)
+    }
   } catch (err) {
     throw new Error('Failed to decrypt data. ' + err.message);
   }
 };
+
 
 const downloadFile = (data, filename, type) => {
   const blob = new Blob([data], { type });
@@ -50,16 +57,20 @@ const DecryptFile = () => {
 
   const handleSaveDecryptedFile = () => {
     if (!decryptedContent) return;
-
-    // Use the original file name with a suffix to indicate it's decrypted
+  
     const newFileName = fileName.replace(/\.(geojson|kml)$/, '_decrypted.$1');
     const fileType = fileName.endsWith('.kml')
       ? 'application/vnd.google-earth.kml+xml'
       : 'application/geo+json';
-
-    // Download the decrypted content
-    downloadFile(JSON.stringify(decryptedContent, null, 2), newFileName, fileType);
+  
+    const fileContent =
+      typeof decryptedContent === 'string'
+        ? decryptedContent // Save as plain text for KML
+        : JSON.stringify(decryptedContent, null, 2); // Save as JSON for GeoJSON
+  
+    downloadFile(fileContent, newFileName, fileType);
   };
+  
 
   return (
     <div style={{ padding: '20px', border: '1px solid #ccc', borderRadius: '5px' }}>
@@ -73,17 +84,20 @@ const DecryptFile = () => {
         <div style={{ marginTop: '20px' }}>
           <h4>Decrypted Content:</h4>
           <pre
-            style={{
-              maxHeight: '300px',
-              overflowY: 'auto',
-              backgroundColor: '#f5f5f5',
-              padding: '10px',
-              border: '1px solid #ddd',
-              borderRadius: '5px',
-            }}
-          >
-            {JSON.stringify(decryptedContent, null, 2)}
-          </pre>
+              style={{
+                maxHeight: '300px',
+                overflowY: 'auto',
+                width :"20rem",
+                backgroundColor: '#f5f5f5',
+                padding: '10px',
+                border: '1px solid #ddd',
+                borderRadius: '5px',
+              }}
+            >
+              {typeof decryptedContent === 'string'
+                ? decryptedContent // Plain text (e.g., KML)
+                : JSON.stringify(decryptedContent, null, 2)} // JSON content (GeoJSON)
+            </pre>
           <button
             onClick={handleSaveDecryptedFile}
             style={{

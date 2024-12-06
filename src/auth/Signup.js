@@ -22,7 +22,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/signup', formData);
+      const response = await axios.post('https://geomesh-back.onrender.com/api/signup', formData);
       setMessage(response.data.message);
       NotificationManager.success('Signup Successfully', 'Account Created');
       localStorage.setItem('email', formData.email);
@@ -37,11 +37,11 @@ const Signup = () => {
 
   return (
     <div>
-      <h2>Sign Up</h2>
       <Link to="/signin" style={{position : "absolute" , right : "2rem" , top : "3rem"}} >
         <button>Sign In</button>
       </Link>
       <form onSubmit={handleSubmit}>
+        <h2>Sign Up</h2>
         <input
           type="text"
           name="name"
