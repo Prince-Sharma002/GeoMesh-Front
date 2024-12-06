@@ -9,6 +9,7 @@ import 'leaflet/dist/leaflet.css';
 // import Segmentation from './components/Segmentation';
 // import SentinelHubImage from './components/SentinelHubImage';
 import GeolocationMap from './map/GeolocationMap';
+import GeolocationMapwithchatbot from './map/GeolocationMapwithchatbot';
 import Signup from './auth/Signup';
 import Signin from './auth/sign';
 import PersonInfo from './info/PersonInfo';
