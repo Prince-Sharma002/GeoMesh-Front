@@ -10,11 +10,9 @@ const AdminDashboard = () => {
   // Fetch all polygons
   const fetchPolygons = async () => {
     try {
-<<<<<<< HEAD
+
       const response = await axios.get('https://geomesh-back-8gtx.onrender.com/api/polygons');
-=======
-      const response = await axios.get('https://geomesh-back.onrender.com/api/polygons');
->>>>>>> 86511d20c03741805eacceab3d63ddb2d88c0a61
+
       setPolygons(response.data);
     } catch (err) {
       setError('Error fetching polygons');
@@ -25,11 +23,9 @@ const AdminDashboard = () => {
   // Fetch all users (optional functionality to fetch users by email)
   const fetchUsers = async () => {
     try {
-<<<<<<< HEAD
-      const response = await axios.get('https://geomesh-back-8gtx.onrender.com/api/users'); // Replace with the correct API if needed
-=======
+
       const response = await axios.get('https://geomesh-back.onrender.com/api/users'); // Replace with the correct API if needed
->>>>>>> 86511d20c03741805eacceab3d63ddb2d88c0a61
+
       setUsers(response.data);
     } catch (err) {
       setError('Error fetching users');
@@ -40,11 +36,9 @@ const AdminDashboard = () => {
   // Delete a polygon
   const deletePolygon = async (id) => {
     try {
-<<<<<<< HEAD
-      await axios.delete(`https://geomesh-back-8gtx.onrender.com/api/polygon/${id}`);
-=======
+
       await axios.delete(`https://geomesh-back.onrender.com/api/polygon/${id}`);
->>>>>>> 86511d20c03741805eacceab3d63ddb2d88c0a61
+
       setPolygons((prevPolygons) => prevPolygons.filter((polygon) => polygon._id !== id));
       alert('Polygon deleted successfully');
     } catch (err) {

@@ -588,6 +588,7 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
             <li key={polygon._id} className='popupDiv' style={{ marginBottom: '10px'  }}>
               <strong>{polygon.description}</strong>
                 <p><strong>Username:</strong> {polygon.name}</p>
+                <p><strong>Coordinates:</strong> {polygon.coordinates}</p>
                 <p><strong>Email:</strong> {polygon.email}</p>
                 <p><strong>Tag:</strong> {polygon.tag}</p>
                 <p><strong>Color:</strong> {polygon.color}</p>
@@ -603,7 +604,7 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
       )}
     </div>
 
-    <div style={{ padding: '10px', backgroundColor: '#f5f5f5', zIndex: 1000 }}>
+    <div className='searchdiv'  style={{ padding: '10px', zIndex: 1000 }}>
         <input
           type="text"
           value={searchQuery}
@@ -614,7 +615,7 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
         <button onClick={handleSearch} style={{ padding: '5px' }}>
           Search
         </button>
-      </div>
+    </div>
 
     <div className="map-controls">      
           <button onClick={exportAllToGeoJSON}>Export All to GeoJSON</button>

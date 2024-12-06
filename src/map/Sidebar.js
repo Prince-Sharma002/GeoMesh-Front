@@ -15,7 +15,7 @@ useEffect(() => {
   if (selectedTag) {
     setLoading(true);
     axios
-      .get(`http://localhost:5000/api/polygons/tag?tag=${selectedTag}`)
+      .get(`https://geomesh-back.onrender.com/api/polygons/tag?tag=${selectedTag}`)
       .then(response => {
         setPolygons(response.data);
         setLoading(false);
@@ -127,7 +127,7 @@ const exportAllToKML = () => {
         <ul>
           {polygons.map(polygon => (
             <li key={polygon._id} style={{ marginBottom: '10px' }}>
-                <p><strong>Description:</strong> {polygon.description}</p>
+             <strong>{polygon.description}</strong>
                 <p><strong>Username:</strong> {polygon.name}</p>
                 <p><strong>Email:</strong> {polygon.email}</p>
                 <p><strong>Tag:</strong> {polygon.tag}</p>
