@@ -33,7 +33,7 @@ function App() {
         <Route path="/sidebar" element={ <Sidebar /> } />
         <Route path="/map2" element={ <MapComponent /> } />
         <Route path="/admin" element={ <AdminDashboard /> } />
-        <Route path="/map3" element={ <GeolocationMapwithchatbot /> } />
+        <Route path="/map4" element={ <GeolocationMapwithchatbot /> } />
 
     </Routes>
   </Router>
