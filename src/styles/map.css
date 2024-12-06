@@ -13,6 +13,7 @@ body {
     overflow: hidden;
   }
 
+
   .searchdiv{
     position: absolute;
     top: 5px;
@@ -163,6 +164,12 @@ body {
         width: 12rem;
         height: 32rem;
         overflow-x: scroll;
+      }
+
+      .selectedpolygon{
+        display: block;
+        top: 100px;
+        left: 100px;
       }
 
     }

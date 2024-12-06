@@ -626,6 +626,9 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
           <Link to="/decrypt">
             <button>Decrypt</button>
           </Link>
+          <Link className='selectedpolygon' to={'/sidebar'}>
+            <button> Tag Selected Polygon </button>
+          </Link>
   
       
     </div>
