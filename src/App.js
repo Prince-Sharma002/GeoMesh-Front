@@ -29,7 +29,7 @@ function App() {
         <Route path="/" element={ <Signup /> } />
         <Route path="/signin" element={ <Signin /> } />
         <Route path="/person-info" element={ <PersonInfo /> } />
-        <Route path="/map" element={ <GeolocationMapwithchatbot /> } />
+        <Route path="/map" element={ <GeolocationMap /> } />
         <Route path="/decrypt" element={ <DecryptFile /> } />
         <Route path="/sidebar" element={ <Sidebar /> } />
         <Route path="/map2" element={ <MapComponent /> } />

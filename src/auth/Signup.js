@@ -22,7 +22,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/signup', formData);
+      const response = await axios.post('https://geomesh-back.onrender.com/api/signup', formData);
       setMessage(response.data.message);
       NotificationManager.success('Signup Successfully', 'Account Created');
       localStorage.setItem('email', formData.email);

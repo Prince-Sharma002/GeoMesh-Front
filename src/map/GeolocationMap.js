@@ -89,7 +89,7 @@ const GeolocationMap = () => {
     if (selectedTag) {
    
       axios
-        .get(`http://localhost:5000/api/polygons/tag?tag=${selectedTag}`)
+        .get(`https://geomesh-back.onrender.com/api/polygons/tag?tag=${selectedTag}`)
         .then(response => {
           settagPolygons(response.data);
           
@@ -121,7 +121,7 @@ const GeolocationMap = () => {
       }
 
       try {
-        const response = await axios.get(`http://localhost:5000/api/user?email=${email}`);
+        const response = await axios.get(`https://geomesh-back.onrender.com/api/user?email=${email}`);
         setUserDetails(response.data); // Set user details in state
         setname(response.data.name); // Set name in state
       } catch (err) {
@@ -137,7 +137,7 @@ const GeolocationMap = () => {
 
   const fetchPolygons = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/polygons');
+      const response = await axios.get('https://geomesh-back.onrender.com/api/polygons');
       setPolygons(response.data);
     } catch (err) {
       console.error('Error fetching polygons:', err.message);
@@ -147,7 +147,7 @@ const GeolocationMap = () => {
     // New delete polygon function
     const handleDeletePolygon = async (id) => {
       try {
-        await axios.delete(`http://localhost:5000/api/polygon/${id}`);
+        await axios.delete(`https://geomesh-back.onrender.com/api/polygon/${id}`);
         // Remove the deleted polygon from the state
         setPolygons((prevPolygons) => 
           prevPolygons.filter((polygon) => polygon._id !== id)
@@ -159,7 +159,7 @@ const GeolocationMap = () => {
 
     const handleLike = async (id) => {
       try {
-        const response = await axios.put(`http://localhost:5000/api/polygon/${id}/like`);
+        const response = await axios.put(`https://geomesh-back.onrender.com/api/polygon/${id}/like`);
         setPolygons((prevPolygons) =>
           prevPolygons.map((polygon) =>
             polygon._id === id ? { ...polygon, likes: response.data.likes } : polygon
@@ -172,7 +172,7 @@ const GeolocationMap = () => {
   
     const handleAddReview = async (id) => {
       try {
-        const response = await axios.put(`http://localhost:5000/api/polygon/${id}/review`, {
+        const response = await axios.put(`https://geomesh-back.onrender.com/api/polygon/${id}/review`, {
           review: reviewInput,
         });
         setPolygons((prevPolygons) =>
@@ -240,7 +240,7 @@ const GeolocationMap = () => {
 
   const savePolygonToBackend = async (polygon) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/polygon', polygon);
+      const response = await axios.post('https://geomesh-back.onrender.com/api/polygon', polygon);
       setPolygons((prev) => [...prev, response.data]);
     } catch (err) {
       console.error('Error saving polygon:', err.message);
@@ -442,7 +442,7 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
       coordinates: [coordinates], // GeoJSON format requires a nested array
     };
 
-    const response = await axios.put(`http://localhost:5000/api/polygon/${id}`, updatedPolygon);
+    const response = await axios.put(`https://geomesh-back.onrender.com/api/polygon/${id}`, updatedPolygon);
 
     // Update state with the new polygon data from the response
     setPolygons((prevPolygons) =>
