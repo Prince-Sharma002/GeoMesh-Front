@@ -37,11 +37,11 @@ const Signup = () => {
 
   return (
     <div>
-      <h2>Sign Up</h2>
       <Link to="/signin" style={{position : "absolute" , right : "2rem" , top : "3rem"}} >
         <button>Sign In</button>
       </Link>
       <form onSubmit={handleSubmit}>
+        <h2>Sign Up</h2>
         <input
           type="text"
           name="name"
