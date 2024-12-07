@@ -78,7 +78,7 @@ const MapUpdater = ({ initialPosition }) => {
 
 
 
-const Geomap = ({ fetchPolygons, setUserDetails, userDetails, name, setname, initialPosition, exportAllToGeoJSON, exportAllToKML, polygons, setPolygons }) => {
+const Geomap = ({ fetchPolygons, setUserDetails, userDetails, name, setname, initialPosition, exportAllToGeoJSON, exportAllToKML, polygons, setPolygons,exportToGeoJSON }) => {
 
   const [reviewInput, setReviewInput] = useState('');
   const [markers, setMarkers] = useState([]);
