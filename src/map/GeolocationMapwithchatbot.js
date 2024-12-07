@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+/*
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, FeatureGroup, Polygon, Popup, LayersControl , useMapEvents  } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -19,7 +19,7 @@ import "../App.css";
 import Count from './Count';
 // Password for encryption
 const PASSWORD = '1234';
-=======
+
 // import React, { useState, useEffect } from 'react';
 // import { MapContainer, TileLayer, FeatureGroup, Polygon, Popup, LayersControl , useMapEvents  } from 'react-leaflet';
 // import 'leaflet/dist/leaflet.css';
@@ -44,7 +44,7 @@ const PASSWORD = '1234';
 // const encryptData = (data, password) => {
 //   return CryptoJS.AES.encrypt(data, password).toString();
 // };
->>>>>>> df712f6ea212d6270829ee97b1ff710fb8b427fd
+
 
 // const downloadFile = (data, filename, type, encrypted = false) => {
 //   let fileContent = data;
@@ -84,7 +84,7 @@ const PASSWORD = '1234';
 //   downloadFile(geojsonString, 'segment.geojson', 'application/geo+json', encrypt);
 // };
 
-<<<<<<< HEAD
+
 export const exportToGeoJSON = (polygon) => {
   const geojson = {
     type: 'Feature',
@@ -159,7 +159,7 @@ export const exportToKML = (polygon) => {
   const encrypt = askForEncryption();
   downloadFile(kmlFile, 'segment.kml', 'application/vnd.google-earth.kml+xml', encrypt);
 };
-=======
+
 // const exportToKML = (polygon) => {
 //   const kml = `
 //     <Placemark>
@@ -184,7 +184,7 @@ export const exportToKML = (polygon) => {
 //   const encrypt = askForEncryption();
 //   downloadFile(kmlFile, 'segment.kml', 'application/vnd.google-earth.kml+xml', encrypt);
 // };
->>>>>>> df712f6ea212d6270829ee97b1ff710fb8b427fd
+
 
 
 
@@ -262,8 +262,7 @@ export const exportToKML = (polygon) => {
 //       attribution: '© CartoDB'
 //     }
 //   };
-  
-<<<<<<< HEAD
+
  const [isLoading, setIsLoading] = useState(false);
 
 useEffect(() => {
@@ -284,7 +283,7 @@ useEffect(() => {
   }
 }, [selectedTag]);
 
-=======
+
 //   useEffect(() => {
 //     settagPolygons([]);
 //     if (selectedTag) {
@@ -301,7 +300,7 @@ useEffect(() => {
 //         });
 //     }
 //   }, [selectedTag]);
->>>>>>> df712f6ea212d6270829ee97b1ff710fb8b427fd
+
 
 //   useEffect(() => {
 //     if ('geolocation' in navigator) {
@@ -487,8 +486,7 @@ useEffect(() => {
 //   downloadFile(geojsonString, 'all_segments.geojson', 'application/geo+json', encrypt);
 // };
 
-<<<<<<< HEAD
-=======
+
 // const exportAllToKML = () => {
 //   const kmlFile = `<?xml version="1.0" encoding="UTF-8"?>
 //     <kml xmlns="http://www.opengis.net/kml/2.2">
@@ -516,7 +514,7 @@ useEffect(() => {
 //   const encrypt = askForEncryption();
 //   downloadFile(kmlFile, 'all_segments.kml', 'application/vnd.google-earth.kml+xml', encrypt);
 // };
->>>>>>> df712f6ea212d6270829ee97b1ff710fb8b427fd
+
 
 
 // const exporttagToGeoJSON = () => {
@@ -663,19 +661,19 @@ useEffect(() => {
 //       )}
 //     </div>
 
-<<<<<<< HEAD
+
       <MapContainer 
         center={initialPosition} 
         zoom={13} 
         style={{ height: '100vh', width: '100%' }}
       >
-=======
+
 //       <MapContainer 
 //         center={initialPosition} 
 //         zoom={13} 
 //         style={{ height: '80vh', width: '100%' }}
-//       >
->>>>>>> df712f6ea212d6270829ee97b1ff710fb8b427fd
+       >
+
       
         
 //            <CursorCoordinates />
@@ -810,7 +808,7 @@ useEffect(() => {
 //         </LayersControl>
 //       </MapContainer>
 
-<<<<<<< HEAD
+
       <button 
     style={{
       position: 'absolute',
@@ -853,7 +851,7 @@ useEffect(() => {
       {/* </Count.ActionProvider> */}
     </div>
   )}
-=======
+
 //       <button 
 //     style={{
 //       position: 'absolute',
@@ -894,7 +892,7 @@ useEffect(() => {
 //       />
 //     </div>
 //   )}
->>>>>>> df712f6ea212d6270829ee97b1ff710fb8b427fd
+
 
 
 //   </div>
@@ -904,3 +902,4 @@ useEffect(() => {
 
 
 // export default GeolocationMap;
+*/

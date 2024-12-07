@@ -30,10 +30,10 @@ function App() {
         <Route path="/signin" element={ <Signin /> } />
         <Route path="/person-info" element={ <PersonInfo /> } />
         <Route path="/map" element={ <GeolocationMap /> } />
-<<<<<<< HEAD
-        <Route path="/map2" element={ <Parentmap /> } />
-=======
->>>>>>> df712f6ea212d6270829ee97b1ff710fb8b427fd
+
+        <Route path="/map3" element={ <Parentmap /> } />
+
+
         <Route path="/decrypt" element={ <DecryptFile /> } />
         <Route path="/sidebar" element={ <Sidebar /> } />
         <Route path="/map2" element={ <MapComponent /> } />
