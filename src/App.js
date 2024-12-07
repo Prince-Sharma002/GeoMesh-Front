@@ -17,10 +17,9 @@ import DecryptFile from './map/DecryptFile';
 import Sidebar from './map/Sidebar';
 import MapComponent from './map/MapComponent';
 import AdminDashboard from './admin/AdminDashboard';
+import WmsMap from './map/WmsMap';
 import LeafletMap from './map/LeafletMap';
 import Parentmap from './map/Parentmap';
-
-
 
 
 function App() {
@@ -31,12 +30,17 @@ function App() {
         <Route path="/signin" element={ <Signin /> } />
         <Route path="/person-info" element={ <PersonInfo /> } />
         <Route path="/map" element={ <GeolocationMap /> } />
+<<<<<<< HEAD
         <Route path="/map2" element={ <Parentmap /> } />
+=======
+>>>>>>> df712f6ea212d6270829ee97b1ff710fb8b427fd
         <Route path="/decrypt" element={ <DecryptFile /> } />
         <Route path="/sidebar" element={ <Sidebar /> } />
         <Route path="/map2" element={ <MapComponent /> } />
         <Route path="/admin" element={ <AdminDashboard /> } />
-        <Route path="/map3" element={ <LeafletMap /> } />
+
+        <Route path="/map4" element={ <GeolocationMapwithchatbot /> } />
+
     </Routes>
   </Router>
     // <div>
