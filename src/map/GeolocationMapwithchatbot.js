@@ -1,24 +1,24 @@
-/*
-import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, FeatureGroup, Polygon, Popup, LayersControl , useMapEvents  } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import 'leaflet-draw/dist/leaflet.draw.css';
-import L from 'leaflet';
-import { EditControl } from 'react-leaflet-draw';
-import axios from 'axios';
-import CryptoJS from 'crypto-js';
-import "../styles/map.css"
-import {Link} from "react-router-dom";
-import Chatbot from 'react-chatbot-kit';
-import config from '../components/Chatbot/config';
-import ActionProvider from '../components/Chatbot/ActionProvider';
-import MessageParser from '../components/Chatbot/MessageParser';
-import ReactFlow, { ReactFlowProvider } from 'reactflow';
-import 'react-chatbot-kit/build/main.css';
-import "../App.css";
-import Count from './Count';
-// Password for encryption
-const PASSWORD = '1234';
+
+// import React, { useState, useEffect } from 'react';
+// import { MapContainer, TileLayer, FeatureGroup, Polygon, Popup, LayersControl , useMapEvents  } from 'react-leaflet';
+// import 'leaflet/dist/leaflet.css';
+// import 'leaflet-draw/dist/leaflet.draw.css';
+// import L from 'leaflet';
+// import { EditControl } from 'react-leaflet-draw';
+// import axios from 'axios';
+// import CryptoJS from 'crypto-js';
+// import "../styles/map.css"
+// import {Link} from "react-router-dom";
+// import Chatbot from 'react-chatbot-kit';
+// import config from '../components/Chatbot/config';
+// import ActionProvider from '../components/Chatbot/ActionProvider';
+// import MessageParser from '../components/Chatbot/MessageParser';
+// import ReactFlow, { ReactFlowProvider } from 'reactflow';
+// import 'react-chatbot-kit/build/main.css';
+// import "../App.css";
+// import Count from './Count';
+// // Password for encryption
+// const PASSWORD = '1234';
 
 // import React, { useState, useEffect } from 'react';
 // import { MapContainer, TileLayer, FeatureGroup, Polygon, Popup, LayersControl , useMapEvents  } from 'react-leaflet';
@@ -662,17 +662,17 @@ useEffect(() => {
 //     </div>
 
 
-      <MapContainer 
-        center={initialPosition} 
-        zoom={13} 
-        style={{ height: '100vh', width: '100%' }}
-      >
-
 //       <MapContainer 
 //         center={initialPosition} 
 //         zoom={13} 
+//         style={{ height: '100vh', width: '100%' }}
+//       >
+
+// //       <MapContainer 
+//         center={initialPosition} 
+//         zoom={13} 
 //         style={{ height: '80vh', width: '100%' }}
-       >
+//       >
 
       
         
@@ -809,48 +809,48 @@ useEffect(() => {
 //       </MapContainer>
 
 
-      <button 
-    style={{
-      position: 'absolute',
-      bottom: '20px',
-      right: '20px',
-      width: '200px',
-      height: '50px',
-      backgroundColor: '#007BFF',
-      color: 'white',
-      border: 'none',
-      borderRadius: '5px',
-      cursor: 'pointer',
-      zIndex: 1000
-    }}
-    onClick={() => setShowChatbot(!showChatbot)} // Toggle chatbot visibility
-  >
-    {showChatbot ? 'Close Chat' : 'Open Chat'}
-  </button>
-  {showChatbot && (
-    <div 
-      style={{
-        position: 'absolute',
-        bottom: '80px', // Above the button
-        right: '20px',
-        width: '300px',
-        height: '620px',
-        backgroundColor: 'white',
-        boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
-        borderRadius: '10px',
-        zIndex: 1100,
-        overflow: 'hidden'
-      }}
-    >
-      {/* <Count.ActionProvider value={{polygons, setPolygons}}> */}
-      <Chatbot
-        config={config}
-        actionProvider={ActionProvider}
-        messageParser={MessageParser}
-      />
-      {/* </Count.ActionProvider> */}
-    </div>
-  )}
+  //     <button 
+  //   style={{
+  //     position: 'absolute',
+  //     bottom: '20px',
+  //     right: '20px',
+  //     width: '200px',
+  //     height: '50px',
+  //     backgroundColor: '#007BFF',
+  //     color: 'white',
+  //     border: 'none',
+  //     borderRadius: '5px',
+  //     cursor: 'pointer',
+  //     zIndex: 1000
+  //   }}
+  //   onClick={() => setShowChatbot(!showChatbot)} // Toggle chatbot visibility
+  // >
+  //   {showChatbot ? 'Close Chat' : 'Open Chat'}
+  // </button>
+  // {showChatbot && (
+  //   <div 
+  //     style={{
+  //       position: 'absolute',
+  //       bottom: '80px', // Above the button
+  //       right: '20px',
+  //       width: '300px',
+  //       height: '620px',
+  //       backgroundColor: 'white',
+  //       boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+  //       borderRadius: '10px',
+  //       zIndex: 1100,
+  //       overflow: 'hidden'
+  //     }}
+  //   >
+  //     {/* <Count.ActionProvider value={{polygons, setPolygons}}> */}
+  //     <Chatbot
+  //       config={config}
+  //       actionProvider={ActionProvider}
+  //       messageParser={MessageParser}
+  //     />
+  //     {/* </Count.ActionProvider> */}
+  //   </div>
+  // )}
 
 //       <button 
 //     style={{
@@ -902,4 +902,3 @@ useEffect(() => {
 
 
 // export default GeolocationMap;
-*/
