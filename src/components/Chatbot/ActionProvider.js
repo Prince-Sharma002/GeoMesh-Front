@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+
 import axios from 'axios';
 import data from './data';
 import Fuse from 'fuse.js';
-import { exportToGeoJSON } from '../../map/GeolocationMapwithchatbot';
+import { exportToGeoJSON, exportToKML, exportAllToKML } from '../../map/GeolocationMapwithchatbot';
+import Count from '../../map/Count';
 
-const ActionProvider = ({ createChatBotMessage, setState, children }) => {
+const ActionProvider = ({ createChatBotMessage, setState, children ,initialPosition,setcoordinates,exportAllToKML,exportAllToGeoJSON, polygons, setPolygons}) => {
   const apiKey = '5d157c620d9c4089b66b6d74a66d4beb'; // Geocoding API key
 
   // Text-to-speech function
@@ -56,8 +58,12 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     if (normalizedQuestion.startsWith('where is')) {
       const cityName = question.replace(/where is/i, '').trim();
       const coordinates = await fetchCoordinates(cityName);
-
-      if (coordinates) {
+  
+      if (coordinates && coordinates.lat && coordinates.lng) {
+        // Update coordinates in Parentmap
+        setcoordinates(parseFloat(coordinates.lat), parseFloat(coordinates.lng)); // Use parseFloat instead of parseInt for lat/lng
+  
+        console.log("Updated Coordinates:", coordinates.lat, coordinates.lng); // Debugging log to ensure it's updating
         return {
           type: 'text',
           content: `The coordinates of ${cityName} are Latitude: ${coordinates.lat}, Longitude: ${coordinates.lng}.`,
@@ -69,6 +75,8 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         };
       }
     }
+  
+  
 
     // Prepare fuzzy search for matching answers in local data
     const keys = Object.keys(data);
@@ -112,10 +120,11 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
   const handleUserQuestion = async (userQuestion) => {
     const answer = await fetchAnswer(userQuestion);
     const normalizedQuestion = userQuestion.trim().toLowerCase();
+
     if (normalizedQuestion === 'export to geojson') {
       try {
-        const polygon = {}; // Ensure polygon data is defined or fetched
-        exportToGeoJSON(polygon);
+         // Ensure polygon data is defined or fetched
+         exportAllToGeoJSON({polygons});
         const message = createChatBotMessage("Export to GeoJSON triggered successfully.");
         updateState(message);
       } catch (error) {
@@ -124,6 +133,33 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
       }
       return;
     }
+
+    if (normalizedQuestion === 'export to kml') {
+      try {
+       
+        exportAllToKML({polygons});
+        const message = createChatBotMessage("Export to KML triggered successfully.");
+        updateState(message);
+      } catch (error) {
+        const errorMessage = createChatBotMessage("Failed to export to KML. Please try again.");
+        updateState(errorMessage);
+      }
+      return;
+    }
+
+    if (normalizedQuestion === 'select layer') {
+      try {
+        const message = createChatBotMessage("Advanced layer selection activated. Please choose a layer:", {
+          widget: 'layerSelection',
+        });
+        updateState(message);
+      } catch (error) {
+        const errorMessage = createChatBotMessage("Failed to activate layer selection. Please try again.");
+        updateState(errorMessage);
+      }
+      return;
+    }
+
     if (answer.type === 'flowchart') {
       const flowchartMessage = createChatBotMessage("Here is your flowchart:", {
         widget: 'flowchart',

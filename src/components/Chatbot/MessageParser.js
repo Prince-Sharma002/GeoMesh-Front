@@ -63,6 +63,7 @@ const MessageParser = ({ children, actions }) => {
           borderRadius: '5px',
           color: 'white',
           cursor: 'pointer',
+          marginTop:'65px',
         }}
       >
         {isListening ? 'Listening...' : 'Speak'}

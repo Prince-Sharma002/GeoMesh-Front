@@ -14,8 +14,8 @@ import ActionProvider from '../components/Chatbot/ActionProvider';
 import MessageParser from '../components/Chatbot/MessageParser';
 import ReactFlow, { ReactFlowProvider } from 'reactflow';
 import 'react-chatbot-kit/build/main.css';
-
-
+import "../App.css";
+import Count from './Count';
 // Password for encryption
 const PASSWORD = '1234';
 
@@ -61,7 +61,37 @@ export const exportToGeoJSON = (polygon) => {
   downloadFile(geojsonString, 'segment.geojson', 'application/geo+json', encrypt);
 };
 
-const exportToKML = (polygon) => {
+export const exportAllToKML = (polygons) => {
+  const kmlFile = `<?xml version="1.0" encoding="UTF-8"?>
+    <kml xmlns="http://www.opengis.net/kml/2.2">
+      <Document>
+        ${polygons
+          .map((polygon) => `
+            <Placemark>
+              <name>${polygon.description}</name>
+              <Style><LineStyle><color>${polygon.color}</color></LineStyle></Style>
+              <Polygon>
+                <outerBoundaryIs>
+                  <LinearRing>
+                    <coordinates>
+                      ${polygon.coordinates[0]
+                        .map(([lng, lat]) => `${lng},${lat},0`)
+                        .join(' ')}
+                    </coordinates>
+                  </LinearRing>
+                </outerBoundaryIs>
+              </Polygon>
+            </Placemark>`)
+          .join('\n')}
+      </Document>
+    </kml>`;
+  const encrypt = askForEncryption();
+  downloadFile(kmlFile, 'all_segments.kml', 'application/vnd.google-earth.kml+xml', encrypt);
+};
+
+
+
+export const exportToKML = (polygon) => {
   const kml = `
     <Placemark>
       <name>${polygon.description}</name>
@@ -163,22 +193,26 @@ const GeolocationMap = () => {
     }
   };
   
-  useEffect(() => {
-    settagPolygons([]);
-    if (selectedTag) {
-   
-      axios
-        .get(`http://localhost:5000/api/polygons/tag?tag=${selectedTag}`)
-        .then(response => {
-          settagPolygons(response.data);
-          
-        })
-        .catch(err => {
-          console.error('Error fetching polygons:', err);
- 
-        });
-    }
-  }, [selectedTag]);
+ const [isLoading, setIsLoading] = useState(false);
+
+useEffect(() => {
+  settagPolygons([]);
+  if (selectedTag) {
+    setIsLoading(true);
+    axios
+      .get(`http://localhost:5000/api/polygons/tag?tag=${selectedTag}`)
+      .then(response => {
+        settagPolygons(response.data);
+      })
+      .catch(err => {
+        console.error('Error fetching polygons:', err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }
+}, [selectedTag]);
+
 
   useEffect(() => {
     if ('geolocation' in navigator) {
@@ -364,33 +398,6 @@ const exportAllToGeoJSON = () => {
   downloadFile(geojsonString, 'all_segments.geojson', 'application/geo+json', encrypt);
 };
 
-const exportAllToKML = () => {
-  const kmlFile = `<?xml version="1.0" encoding="UTF-8"?>
-    <kml xmlns="http://www.opengis.net/kml/2.2">
-      <Document>
-        ${polygons
-          .map((polygon) => `
-            <Placemark>
-              <name>${polygon.description}</name>
-              <Style><LineStyle><color>${polygon.color}</color></LineStyle></Style>
-              <Polygon>
-                <outerBoundaryIs>
-                  <LinearRing>
-                    <coordinates>
-                      ${polygon.coordinates[0]
-                        .map(([lng, lat]) => `${lng},${lat},0`)
-                        .join(' ')}
-                    </coordinates>
-                  </LinearRing>
-                </outerBoundaryIs>
-              </Polygon>
-            </Placemark>`)
-          .join('\n')}
-      </Document>
-    </kml>`;
-  const encrypt = askForEncryption();
-  downloadFile(kmlFile, 'all_segments.kml', 'application/vnd.google-earth.kml+xml', encrypt);
-};
 
 
 const exporttagToGeoJSON = () => {
@@ -540,7 +547,7 @@ const [showChatbot, setShowChatbot] = useState(false);
       <MapContainer 
         center={initialPosition} 
         zoom={13} 
-        style={{ height: '80vh', width: '100%' }}
+        style={{ height: '100vh', width: '100%' }}
       >
       
         
@@ -701,7 +708,7 @@ const [showChatbot, setShowChatbot] = useState(false);
         bottom: '80px', // Above the button
         right: '20px',
         width: '300px',
-        height: '550px',
+        height: '620px',
         backgroundColor: 'white',
         boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
         borderRadius: '10px',
@@ -709,11 +716,13 @@ const [showChatbot, setShowChatbot] = useState(false);
         overflow: 'hidden'
       }}
     >
+      {/* <Count.ActionProvider value={{polygons, setPolygons}}> */}
       <Chatbot
         config={config}
         actionProvider={ActionProvider}
         messageParser={MessageParser}
       />
+      {/* </Count.ActionProvider> */}
     </div>
   )}
 

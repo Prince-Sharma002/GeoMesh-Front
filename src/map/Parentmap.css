@@ -1,0 +1,95 @@
+/* Main Chatbot Container */
+.chatbot-container {
+  position: absolute;
+  bottom: 80px; /* Above the button */
+  right: 20px;
+  width: 300px;
+  height: 620px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  z-index: 1100;
+  overflow: hidden;
+}
+
+/* Chatbot Toggle Button */
+.chatbot-toggle-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 200px;
+  height: 50px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 1000;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.chatbot-toggle-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.chatbot-toggle-button:active {
+  transform: translateY(2px);
+}
+
+/* Chat Input Styling */
+.react-chatbot-kit-chat-input-container {
+  margin-top: 0;
+  position: relative;
+  height: 20px;
+}
+
+.react-chatbot-kit-chat-input {
+  width: 200px;
+  height: 45px;
+  background-color: #f9f9f9;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 0 0 12px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.react-chatbot-kit-chat-input input {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 6px;
+  background-color: #ffffff;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  transition: box-shadow 0.3s ease;
+}
+
+.react-chatbot-kit-chat-input input:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.8);
+}
+
+.react-chatbot-kit-chat-input button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.react-chatbot-kit-chat-input button:hover {
+  background-color: #367bbf;
+  transform: translateY(-2px); /* Slightly lifts the button on hover */
+}
+
+.react-chatbot-kit-chat-input button:active {
+  transform: translateY(2px); /* Press effect */
+}

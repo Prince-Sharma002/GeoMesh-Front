@@ -18,6 +18,7 @@ import Sidebar from './map/Sidebar';
 import MapComponent from './map/MapComponent';
 import AdminDashboard from './admin/AdminDashboard';
 import LeafletMap from './map/LeafletMap';
+import Parentmap from './map/Parentmap';
 
 
 
@@ -29,7 +30,8 @@ function App() {
         <Route path="/" element={ <Signup /> } />
         <Route path="/signin" element={ <Signin /> } />
         <Route path="/person-info" element={ <PersonInfo /> } />
-        <Route path="/map" element={ <GeolocationMapwithchatbot /> } />
+        <Route path="/map" element={ <GeolocationMap /> } />
+        <Route path="/map2" element={ <Parentmap /> } />
         <Route path="/decrypt" element={ <DecryptFile /> } />
         <Route path="/sidebar" element={ <Sidebar /> } />
         <Route path="/map2" element={ <MapComponent /> } />
