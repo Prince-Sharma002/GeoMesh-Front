@@ -1,72 +1,130 @@
+/* Form Styling */
+form {
+  background: linear-gradient(145deg, #ffffff, #f0f0f0);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 420px;
+  margin: auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-  
+form:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Heading Styling */
+h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  font-weight: 700;
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+}
+
+/* Input Fields */
+input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 8px rgba(74, 144, 226, 0.4);
+  background-color: #f9fcff;
+}
+
+::placeholder {
+  color: #aaa;
+  font-size: 0.95rem;
+}
+
+/* Button Styling */
+button {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #357abd, #245a8b);
+  transform: scale(1.03);
+}
+
+/* Additional Text Styling */
+p {
+  text-align: center;
+  color: #7f8c8d;
+  margin-top: 25px;
+  font-size: 0.95rem;
+}
+
+/* Error States */
+input:invalid {
+  border-color: #ff6b6b;
+  background-color: #fff5f5;
+  animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25%, 75% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
   form {
-    background-color: white;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
+    padding: 20px;
+    margin: 10px;
   }
-  
+
   h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 30px;
-    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
   }
-  
+
   input {
-    width: 100%;
     padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
+    font-size: 0.9rem;
   }
-  
-  input:focus {
-    outline: none;
-    border-color: #4a90e2;
-    box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
-  }
-  
+
   button {
-    width: 100%;
+    font-size: 1rem;
     padding: 12px;
-    background-color: #4a90e2;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
   }
-  
-  button:hover {
-    background-color: #357abd;
-  }
-  
+
   p {
-    text-align: center;
-    color: #666;
-    margin-top: 20px;
+    font-size: 0.9rem;
   }
-  
-  /* Responsive Design */
-  @media (max-width: 480px) {
-    form {
-      padding: 20px;
-      margin: 0 0px;
-    }
-  }
-  
-  /* Input Placeholder Styling */
-  ::placeholder {
-    color: #999;
-  }
-  
-  /* Validation and Error States */
-  input:invalid {
-    border-color: #ff6b6b;
-  }
+}
+
+/* Preventing Overlaps */
+form button {
+  display: block;
+  margin-top: 10px;
+}
