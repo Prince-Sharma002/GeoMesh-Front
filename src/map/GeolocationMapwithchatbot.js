@@ -85,80 +85,80 @@
 // };
 
 
-export const exportToGeoJSON = (polygon) => {
-  const geojson = {
-    type: 'Feature',
-    properties: {
-      description: polygon.description,
-      color: polygon.color,
-      area: polygon.area,
-      likes: polygon.likes,
-      reviews: polygon.reviews,
-    },
-    geometry: {
-      type: 'Polygon',
-      coordinates: polygon.coordinates,
-    },
-  };
-  const geojsonString = JSON.stringify(geojson);
-  const encrypt = askForEncryption();
-  downloadFile(geojsonString, 'segment.geojson', 'application/geo+json', encrypt);
-};
+// export const exportToGeoJSON = (polygon) => {
+//   const geojson = {
+//     type: 'Feature',
+//     properties: {
+//       description: polygon.description,
+//       color: polygon.color,
+//       area: polygon.area,
+//       likes: polygon.likes,
+//       reviews: polygon.reviews,
+//     },
+//     geometry: {
+//       type: 'Polygon',
+//       coordinates: polygon.coordinates,
+//     },
+//   };
+//   const geojsonString = JSON.stringify(geojson);
+//   const encrypt = askForEncryption();
+//   downloadFile(geojsonString, 'segment.geojson', 'application/geo+json', encrypt);
+// };
 
-export const exportAllToKML = (polygons) => {
-  const kmlFile = `<?xml version="1.0" encoding="UTF-8"?>
-    <kml xmlns="http://www.opengis.net/kml/2.2">
-      <Document>
-        ${polygons
-          .map((polygon) => `
-            <Placemark>
-              <name>${polygon.description}</name>
-              <Style><LineStyle><color>${polygon.color}</color></LineStyle></Style>
-              <Polygon>
-                <outerBoundaryIs>
-                  <LinearRing>
-                    <coordinates>
-                      ${polygon.coordinates[0]
-                        .map(([lng, lat]) => `${lng},${lat},0`)
-                        .join(' ')}
-                    </coordinates>
-                  </LinearRing>
-                </outerBoundaryIs>
-              </Polygon>
-            </Placemark>`)
-          .join('\n')}
-      </Document>
-    </kml>`;
-  const encrypt = askForEncryption();
-  downloadFile(kmlFile, 'all_segments.kml', 'application/vnd.google-earth.kml+xml', encrypt);
-};
+// export const exportAllToKML = (polygons) => {
+//   const kmlFile = `<?xml version="1.0" encoding="UTF-8"?>
+//     <kml xmlns="http://www.opengis.net/kml/2.2">
+//       <Document>
+//         ${polygons
+//           .map((polygon) => `
+//             <Placemark>
+//               <name>${polygon.description}</name>
+//               <Style><LineStyle><color>${polygon.color}</color></LineStyle></Style>
+//               <Polygon>
+//                 <outerBoundaryIs>
+//                   <LinearRing>
+//                     <coordinates>
+//                       ${polygon.coordinates[0]
+//                         .map(([lng, lat]) => `${lng},${lat},0`)
+//                         .join(' ')}
+//                     </coordinates>
+//                   </LinearRing>
+//                 </outerBoundaryIs>
+//               </Polygon>
+//             </Placemark>`)
+//           .join('\n')}
+//       </Document>
+//     </kml>`;
+//   const encrypt = askForEncryption();
+//   downloadFile(kmlFile, 'all_segments.kml', 'application/vnd.google-earth.kml+xml', encrypt);
+// };
 
 
 
-export const exportToKML = (polygon) => {
-  const kml = `
-    <Placemark>
-      <name>${polygon.description}</name>
-      <Style><LineStyle><color>${polygon.color}</color></LineStyle></Style>
-      <Polygon>
-        <outerBoundaryIs>
-          <LinearRing>
-            <coordinates>
-              ${polygon.coordinates[0]
-                .map(([lng, lat]) => `${lng},${lat},0`)
-                .join(' ')}
-            </coordinates>
-          </LinearRing>
-        </outerBoundaryIs>
-      </Polygon>
-    </Placemark>`;
-  const kmlFile = `<?xml version="1.0" encoding="UTF-8"?>
-    <kml xmlns="http://www.opengis.net/kml/2.2">
-      <Document>${kml}</Document>
-    </kml>`;
-  const encrypt = askForEncryption();
-  downloadFile(kmlFile, 'segment.kml', 'application/vnd.google-earth.kml+xml', encrypt);
-};
+// export const exportToKML = (polygon) => {
+//   const kml = `
+//     <Placemark>
+//       <name>${polygon.description}</name>
+//       <Style><LineStyle><color>${polygon.color}</color></LineStyle></Style>
+//       <Polygon>
+//         <outerBoundaryIs>
+//           <LinearRing>
+//             <coordinates>
+//               ${polygon.coordinates[0]
+//                 .map(([lng, lat]) => `${lng},${lat},0`)
+//                 .join(' ')}
+//             </coordinates>
+//           </LinearRing>
+//         </outerBoundaryIs>
+//       </Polygon>
+//     </Placemark>`;
+//   const kmlFile = `<?xml version="1.0" encoding="UTF-8"?>
+//     <kml xmlns="http://www.opengis.net/kml/2.2">
+//       <Document>${kml}</Document>
+//     </kml>`;
+//   const encrypt = askForEncryption();
+//   downloadFile(kmlFile, 'segment.kml', 'application/vnd.google-earth.kml+xml', encrypt);
+// };
 
 // const exportToKML = (polygon) => {
 //   const kml = `
@@ -263,25 +263,25 @@ export const exportToKML = (polygon) => {
 //     }
 //   };
 
- const [isLoading, setIsLoading] = useState(false);
+//  const [isLoading, setIsLoading] = useState(false);
 
-useEffect(() => {
-  settagPolygons([]);
-  if (selectedTag) {
-    setIsLoading(true);
-    axios
-      .get(`http://localhost:5000/api/polygons/tag?tag=${selectedTag}`)
-      .then(response => {
-        settagPolygons(response.data);
-      })
-      .catch(err => {
-        console.error('Error fetching polygons:', err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }
-}, [selectedTag]);
+// useEffect(() => {
+//   settagPolygons([]);
+//   if (selectedTag) {
+//     setIsLoading(true);
+//     axios
+//       .get(`http://localhost:5000/api/polygons/tag?tag=${selectedTag}`)
+//       .then(response => {
+//         settagPolygons(response.data);
+//       })
+//       .catch(err => {
+//         console.error('Error fetching polygons:', err);
+//       })
+//       .finally(() => {
+//         setIsLoading(false);
+//       });
+//   }
+// }, [selectedTag]);
 
 
 //   useEffect(() => {
