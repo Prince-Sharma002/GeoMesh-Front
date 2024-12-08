@@ -79,7 +79,7 @@ const MapUpdater = ({ initialPosition }) => {
 
 
 
-const Geomap = ({ fetchPolygons, setUserDetails, userDetails, name, setname, initialPosition, exportAllToGeoJSON, exportAllToKML, polygons, setPolygons,exportToGeoJSON }) => {
+const Geomap = ({ exporttagToGeoJSON,exporttagToKML,tagpolygons,settagPolygons,fetchPolygons, setUserDetails, userDetails, name, setname, initialPosition, exportAllToGeoJSON, exportAllToKML, polygons, setPolygons,exportToGeoJSON }) => {
 
   const [reviewInput, setReviewInput] = useState('');
   const [markers, setMarkers] = useState([]);
@@ -91,7 +91,7 @@ const Geomap = ({ fetchPolygons, setUserDetails, userDetails, name, setname, ini
 
   const [tags, setTags] = useState(['Farm', 'Rural', 'Urban', 'Building', 'Mountain', 'Vehicle', 'Road', 'Water Body', 'Forest', 'Others']); // Define available tags
   const [selectedTag, setSelectedTag] = useState('none');
-  const [tagpolygons, settagPolygons] = useState([]);
+  
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResult, setSearchResult] = useState(null); 
@@ -324,56 +324,6 @@ const Geomap = ({ fetchPolygons, setUserDetails, userDetails, name, setname, ini
 
 
 
-  const exporttagToGeoJSON = () => {
-    const geojson = {
-      type: 'FeatureCollection',
-      features: tagpolygons.map((polygon) => ({
-        type: 'Feature',
-        properties: {
-          description: polygon.description,
-          color: polygon.color,
-          area: polygon.area,
-          likes: polygon.likes,
-          reviews: polygon.reviews,
-        },
-        geometry: {
-          type: 'Polygon',
-          coordinates: polygon.coordinates,
-        },
-      })),
-    };
-    const geojsonString = JSON.stringify(geojson);
-    const encrypt = askForEncryption();
-    downloadFile(geojsonString, 'all_segments.geojson', 'application/geo+json', encrypt);
-  };
-
-  const exporttagToKML = () => {
-    const kmlFile = `<?xml version="1.0" encoding="UTF-8"?>
-    <kml xmlns="http://www.opengis.net/kml/2.2">
-      <Document>
-        ${tagpolygons
-        .map((polygon) => `
-            <Placemark>
-              <name>${polygon.description}</name>
-              <Style><LineStyle><color>${polygon.color}</color></LineStyle></Style>
-              <Polygon>
-                <outerBoundaryIs>
-                  <LinearRing>
-                    <coordinates>
-                      ${polygon.coordinates[0]
-            .map(([lng, lat]) => `${lng},${lat},0`)
-            .join(' ')}
-                    </coordinates>
-                  </LinearRing>
-                </outerBoundaryIs>
-              </Polygon>
-            </Placemark>`)
-        .join('\n')}
-      </Document>
-    </kml>`;
-    const encrypt = askForEncryption();
-    downloadFile(kmlFile, 'all_segments.kml', 'application/vnd.google-earth.kml+xml', encrypt);
-  };
 
 
   const handleUpdatePolygon = async (id, coordinates, tag, color) => {

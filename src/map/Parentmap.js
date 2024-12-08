@@ -28,7 +28,7 @@ const Parentmap = () => {
   const [selectedTag, setSelectedTag] = useState('none');
   const [tagpolygons, settagPolygons] = useState([]);
 
-
+  
 
   const [showChatbot, setShowChatbot] = useState(false);
 
@@ -179,6 +179,59 @@ const askForEncryption = () => {
     downloadFile(geojsonString, 'segment.geojson', 'application/geo+json', encrypt);
   };
 
+
+
+  const exporttagToGeoJSON = () => {
+    const geojson = {
+      type: 'FeatureCollection',
+      features: tagpolygons.map((polygon) => ({
+        type: 'Feature',
+        properties: {
+          description: polygon.description,
+          color: polygon.color,
+          area: polygon.area,
+          likes: polygon.likes,
+          reviews: polygon.reviews,
+        },
+        geometry: {
+          type: 'Polygon',
+          coordinates: polygon.coordinates,
+        },
+      })),
+    };
+    const geojsonString = JSON.stringify(geojson);
+    const encrypt = askForEncryption();
+    downloadFile(geojsonString, 'all_segments.geojson', 'application/geo+json', encrypt);
+  };
+
+  const exporttagToKML = () => {
+    const kmlFile = `<?xml version="1.0" encoding="UTF-8"?>
+    <kml xmlns="http://www.opengis.net/kml/2.2">
+      <Document>
+        ${tagpolygons
+        .map((polygon) => `
+            <Placemark>
+              <name>${polygon.description}</name>
+              <Style><LineStyle><color>${polygon.color}</color></LineStyle></Style>
+              <Polygon>
+                <outerBoundaryIs>
+                  <LinearRing>
+                    <coordinates>
+                      ${polygon.coordinates[0]
+            .map(([lng, lat]) => `${lng},${lat},0`)
+            .join(' ')}
+                    </coordinates>
+                  </LinearRing>
+                </outerBoundaryIs>
+              </Polygon>
+            </Placemark>`)
+        .join('\n')}
+      </Document>
+    </kml>`;
+    const encrypt = askForEncryption();
+    downloadFile(kmlFile, 'all_segments.kml', 'application/vnd.google-earth.kml+xml', encrypt);
+  };
+
   return (
 
     <>
@@ -186,7 +239,8 @@ const askForEncryption = () => {
       exportAllToGeoJSON={exportAllToGeoJSON}
       polygons={polygons} setPolygons={setPolygons} fetchPolygons={fetchPolygons}
       userDetails={userDetails} setUserDetails={setUserDetails} name={name} 
-      setname={setname}
+      setname={setname} tagpolygons={tagpolygons} settagPolygons={settagPolygons}
+      exporttagToGeoJSON={exporttagToGeoJSON} exporttagToKML={exporttagToKML}
       />
       <button
         className="chatbot-toggle-button"
@@ -208,6 +262,8 @@ const askForEncryption = () => {
                 polygons={polygons} 
                 setPolygons={setPolygons}
                 exportToGeoJSON={exportToGeoJSON}
+                exporttagToGeoJSON={exporttagToGeoJSON}
+                exporttagToKML={exporttagToKML}
               />
             )}
             messageParser={MessageParser}

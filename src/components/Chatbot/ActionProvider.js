@@ -6,7 +6,7 @@ import Fuse from 'fuse.js';
 import { exportToGeoJSON, exportToKML, exportAllToKML } from '../../map/GeolocationMapwithchatbot';
 import Count from '../../map/Count';
 
-const ActionProvider = ({ createChatBotMessage, setState, children ,initialPosition,setcoordinates,exportAllToKML,exportAllToGeoJSON, polygons, setPolygons}) => {
+const ActionProvider = ({ exporttagToGeoJSON,exporttagToKML,createChatBotMessage, setState, children ,initialPosition,setcoordinates,exportAllToKML,exportAllToGeoJSON, polygons, setPolygons}) => {
   const apiKey = '5d157c620d9c4089b66b6d74a66d4beb'; // Geocoding API key
 
   // Text-to-speech function
@@ -121,6 +121,32 @@ const ActionProvider = ({ createChatBotMessage, setState, children ,initialPosit
     const answer = await fetchAnswer(userQuestion);
     const normalizedQuestion = userQuestion.trim().toLowerCase();
 
+    if (normalizedQuestion.startsWith('export to geojson of')) {
+      const tag = normalizedQuestion.substring('export to geojson of'.length).trim(); // Extract the tag
+      try {
+        // Ensure polygon data is defined or fetched
+        exporttagToGeoJSON();
+        const message = createChatBotMessage(`Export to GeoJSON for tag "${tag}" triggered successfully.`);
+        updateState(message);
+      } catch (error) {
+        const errorMessage = createChatBotMessage(`Failed to export to GeoJSON for tag "${tag}". Please try again.`);
+        updateState(errorMessage);
+      }
+      return;
+    }
+    if (normalizedQuestion.startsWith('export to kml of')) {
+      const tag = normalizedQuestion.substring('export to kml of'.length).trim(); // Extract the tag
+      try {
+        // Ensure polygon data is defined or fetched
+        exporttagToKML();
+        const message = createChatBotMessage(`Export to kml for tag "${tag}" triggered successfully.`);
+        updateState(message);
+      } catch (error) {
+        const errorMessage = createChatBotMessage(`Failed to export to kml for tag "${tag}". Please try again.`);
+        updateState(errorMessage);
+      }
+      return;
+    }
     if (normalizedQuestion === 'export to geojson') {
       try {
          // Ensure polygon data is defined or fetched
