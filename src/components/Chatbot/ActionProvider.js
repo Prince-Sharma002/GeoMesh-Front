@@ -53,6 +53,10 @@ const ActionProvider = ({ exporttagToGeoJSON,exporttagToKML,createChatBotMessage
     if (normalizedQuestion.includes('use')) {
       return { type: 'use' }; // Signal to display a specific flowchart
     }
+    if (normalizedQuestion.includes('chatbot')) {
+      return { type: 'chatbot' }; // Signal to display a specific flowchart
+    }
+    
 
     // Check if the question is about coordinates
     if (normalizedQuestion.startsWith('where is')) {
@@ -196,7 +200,13 @@ const ActionProvider = ({ exporttagToGeoJSON,exporttagToKML,createChatBotMessage
         widget: 'flowchart2',
       });
       updateState(flowchartMessage);
-    } else if (answer.type === 'text') {
+    } else if (answer.type === 'chatbot') {
+      const flowchartMessage = createChatBotMessage("Here is your flowchart:", {
+        widget: 'flowchartchatbot',
+      });
+      updateState(flowchartMessage);
+    } 
+    else if (answer.type === 'text') {
       const message = createChatBotMessage(answer.content);
       speakResponse(answer.content);
       updateState(message);

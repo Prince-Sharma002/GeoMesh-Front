@@ -1,5 +1,6 @@
 import Flowchart from '../Flowchart';
 import Flowchart2 from '../Flowchart2';
+import ChatbotFlowchart from '../Flowchartchatbot';
 import LayerSelection from '../LayerSelection';
 import { createChatBotMessage } from 'react-chatbot-kit';
 
@@ -16,6 +17,10 @@ const config = {
     {
       widgetName: "flowchart2",
       widgetFunc: (props) => <Flowchart2 {...props} />,
+    },
+    {
+      widgetName: "flowchartchatbot",
+      widgetFunc: (props) => <ChatbotFlowchart {...props} />,
     },
     {
       widgetName: "layerSelection",
