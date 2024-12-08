@@ -17,6 +17,7 @@ import 'react-chatbot-kit/build/main.css';
 import "../App.css";
 import Count from './Count';
 import initialPosition from './initialPosition';
+import { SearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 // Password for encryption
 
 
@@ -92,7 +93,8 @@ const Geomap = ({ fetchPolygons, setUserDetails, userDetails, name, setname, ini
   const [selectedTag, setSelectedTag] = useState('none');
   const [tagpolygons, settagPolygons] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResult, setSearchResult] = useState(null); 
   useEffect(() => {
     const fetchUserDetails = async () => {
       const email = localStorage.getItem('email'); // Get email from local storage
@@ -165,6 +167,40 @@ const Geomap = ({ fetchPolygons, setUserDetails, userDetails, name, setname, ini
     }
   };
 
+  const handleSearch = async () => {
+    if (!searchQuery) return;
+
+    try {
+      // Using OpenStreetMap's Nominatim API for geocoding
+      const response = await axios.get(`https://nominatim.openstreetmap.org/search`, {
+        params: {
+          q: searchQuery,
+          format: 'json',
+        },
+      });
+
+      if (response.data.length > 0) {
+        const result = response.data[0];
+        setSearchResult([parseFloat(result.lat), parseFloat(result.lon)]);
+      } else {
+        alert('Location not found!');
+      }
+    } catch (err) {
+      console.error('Error searching location:', err.message);
+    }
+  };
+
+  const PanToSearchResult = () => {
+    const map = useMap();
+
+    useEffect(() => {
+      if (searchResult) {
+        map.setView(searchResult, 13); // Pan to the searched location with zoom level 13
+      }
+    }, [searchResult, map]);
+
+    return null;
+  };
 
 
   // New delete polygon function
@@ -482,6 +518,18 @@ const Geomap = ({ fetchPolygons, setUserDetails, userDetails, name, setname, ini
           <p>No polygons found for the selected tag.</p>
         )}
       </div>
+      <div className='searchdiv'  style={{ padding: '10px', zIndex: 1000 }}>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search for a place..."
+          style={{ width: '200px', padding: '5px', marginRight: '10px' }}
+        />
+        <button onClick={handleSearch} style={{ padding: '5px' }}>
+          Search
+        </button>
+    </div>
 
       <div className="map-controls">
         <button onClick={exportAllToGeoJSON}>Export All to GeoJSON</button>
@@ -643,7 +691,7 @@ const Geomap = ({ fetchPolygons, setUserDetails, userDetails, name, setname, ini
           </LayersControl.Overlay>
 
         </LayersControl>
-
+        {searchResult && <PanToSearchResult />}
       </MapContainer>
 
 
