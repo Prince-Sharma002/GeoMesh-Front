@@ -2,7 +2,7 @@ import React from 'react';
 import ReactFlow, { Background, Controls, ReactFlowProvider, Handle } from 'reactflow';
 import 'reactflow/dist/style.css';
 
-// Enhanced Custom Node Components
+// Custom Node Components
 const CircleNode = ({ data }) => (
   <div
     style={{
@@ -10,7 +10,6 @@ const CircleNode = ({ data }) => (
       borderRadius: '50%',
       padding: '20px',
       color: 'white',
-      
       textAlign: 'center',
       boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
       width: '75px',
@@ -58,8 +57,8 @@ const RoundedRectNode = ({ data }) => (
       color: 'black',
       textAlign: 'center',
       boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
-      width: '80px',
-      height: '40px',
+      width: '120px',
+      height: '50px',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
@@ -72,7 +71,6 @@ const RoundedRectNode = ({ data }) => (
   </div>
 );
 
-// Register Custom Node Types
 const nodeTypes = {
   circle: CircleNode,
   diamond: DiamondNode,
@@ -80,34 +78,31 @@ const nodeTypes = {
 };
 
 const Flowchart = () => {
-    const nodes = [
-        { id: '1', position: { x: 250, y: 0 }, data: { label: 'User Signup' }, type: 'circle' },
-        { id: '2', position: { x: 100, y: 100 }, data: { label: 'Input WMS URL' }, type: 'diamond' },
-        { id: '3', position: { x: 400, y: 100 }, data: { label: 'Validate URL' }, type: 'roundedRect' },
-        { id: '4', position: { x: 100, y: 200 }, data: { label: 'Load WMS Layers' }, type: 'roundedRect' },
-        { id: '5', position: { x: 400, y: 200 }, data: { label: 'Invalid URL' }, type: 'diamond' },
-        { id: '6', position: { x: 250, y: 300 }, data: { label: 'Select Tool' }, type: 'circle' },
-        { id: '7', position: { x: 250, y: 400 }, data: { label: 'Process Images' }, type: 'roundedRect' },
-        { id: '8', position: { x: 100, y: 500 }, data: { label: 'Segmentation Success' }, type: 'circle' },
-        { id: '9', position: { x: 400, y: 500 }, data: { label: 'Segmentation Failure' }, type: 'circle' },
-        { id: '10', position: { x: 250, y: 600 }, data: { label: 'Refine & Export' }, type: 'diamond' },
-        { id: '11', position: { x: 250, y: 700 }, data: { label: 'Export Data' }, type: 'circle' },
-      ];
-    
-      const edges = [
-        { id: 'e1-2', source: '1', target: '2', animated: true },
-        { id: 'e2-3', source: '2', target: '3', animated: true },
-        { id: 'e3-4', source: '3', target: '4', label: 'Valid URL', style: { stroke: '#4CAF50', strokeWidth: 2 } },
-        { id: 'e3-5', source: '3', target: '5', label: 'Invalid URL', style: { stroke: '#FF5722', strokeWidth: 2 } },
-        { id: 'e4-6', source: '4', target: '6', animated: true },
-        { id: 'e5-2', source: '5', target: '2', label: 'Retry', style: { stroke: '#FFC107', strokeWidth: 2 } },
-        { id: 'e6-7', source: '6', target: '7', animated: true },
-        { id: 'e7-8', source: '7', target: '8', label: 'Success', style: { stroke: '#4CAF50', strokeWidth: 2 } },
-        { id: 'e7-9', source: '7', target: '9', label: 'Failure', style: { stroke: '#FF5722', strokeWidth: 2 } },
-        { id: 'e8-10', source: '8', target: '10', animated: true },
-        { id: 'e9-6', source: '9', target: '6', label: 'Retry Segmentation', style: { stroke: '#FFC107', strokeWidth: 2 } },
-        { id: 'e10-11', source: '10', target: '11', animated: true },
-      ];
+  const nodes = [
+    { id: '1', position: { x: 250, y: 0 }, data: { label: 'Start' }, type: 'circle' },
+    { id: '2', position: { x: 250, y: 150 }, data: { label: 'Segment Map Area' }, type: 'diamond' },
+    { id: '3', position: { x: 50, y: 300 }, data: { label: 'Edit Segmented Area' }, type: 'roundedRect' },
+    { id: '4', position: { x: 450, y: 300 }, data: { label: 'Download as GeoJSON' }, type: 'roundedRect' },
+    { id: '5', position: { x: 450, y: 450 }, data: { label: 'Download as KML' }, type: 'roundedRect' },
+    { id: '6', position: { x: 250, y: 600 }, data: { label: 'Use Chatbot for Commands' }, type: 'diamond' },
+    { id: '7', position: { x: 50, y: 730 }, data: { label: 'Review & Validate Data' }, type: 'roundedRect' },
+    { id: '8', position: { x: 450, y: 750 }, data: { label: 'Export Final Data' }, type: 'roundedRect' },
+    { id: '9', position: { x: 250, y: 900 }, data: { label: 'End' }, type: 'circle' },
+  ];
+
+  const edges = [
+    { id: 'e1-2', source: '1', target: '2', animated: true, style: { stroke: '#43C6AC', strokeWidth: 2, curve: 'smoothstep' } },
+    { id: 'e2-3', source: '2', target: '3', animated: true, style: { stroke: '#FF5722', strokeWidth: 2, curve: 'smoothstep' } },
+    { id: 'e2-4', source: '2', target: '4', animated: true, style: { stroke: '#FF5722', strokeWidth: 2, curve: 'smoothstep' } },
+    { id: 'e4-5', source: '4', target: '5', animated: true, style: { stroke: '#FF5722', strokeWidth: 2, curve: 'smoothstep' } },
+    { id: 'e3-6', source: '3', target: '6', animated: true, style: { stroke: '#2196F3', strokeWidth: 2, curve: 'smoothstep' } },
+    { id: 'e5-6', source: '5', target: '6', animated: true, style: { stroke: '#2196F3', strokeWidth: 2, curve: 'smoothstep' } },
+    { id: 'e6-7', source: '6', target: '7', animated: true, style: { stroke: '#2196F3', strokeWidth: 2, curve: 'smoothstep' } },
+    { id: 'e6-8', source: '6', target: '8', animated: true, style: { stroke: '#2196F3', strokeWidth: 2, curve: 'smoothstep' } },
+    { id: 'e7-9', source: '7', target: '9', animated: true, style: { stroke: '#43C6AC', strokeWidth: 2, curve: 'smoothstep' } },
+    { id: 'e8-9', source: '8', target: '9', animated: true, style: { stroke: '#43C6AC', strokeWidth: 2, curve: 'smoothstep' } },
+  ];
+
   return (
     <ReactFlowProvider>
       <div style={{ height: '100vh', width: '100%' }}>

@@ -20,7 +20,7 @@ import AdminDashboard from './admin/AdminDashboard';
 import WmsMap from './map/WmsMap';
 import LeafletMap from './map/LeafletMap';
 import GeoJSONConverter from './map/GeoJSONConverter';
-
+import Parentmap from './map/Parentmap';
 
 function App() {
   return (
@@ -30,13 +30,18 @@ function App() {
         <Route path="/signin" element={ <Signin /> } />
         <Route path="/person-info" element={ <PersonInfo /> } />
         <Route path="/map" element={ <GeolocationMap /> } />
+
+        <Route path="/map3" element={ <Parentmap /> } />
+
+
         <Route path="/decrypt" element={ <DecryptFile /> } />
         <Route path="/sidebar" element={ <Sidebar /> } />
         <Route path="/map2" element={ <MapComponent /> } />
         <Route path="/admin" element={ <AdminDashboard /> } />
         <Route path="/convert" element={ <GeoJSONConverter /> } />
-
+      
         <Route path="/map4" element={ <GeolocationMapwithchatbot /> } />
+        <Route path="/map5" element={ <Parentmap /> } />
 
     </Routes>
   </Router>

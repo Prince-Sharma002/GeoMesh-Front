@@ -1,4 +1,5 @@
 const data = {
+  "hi":"Hi! I can help with answers or create flowcharts. Just ask!",
   "what is the purpose of this application": "The application enables interactive semantic segmentation of images from WMS services using on-device GPUs/NPUs. It is designed to assist users in digitizing geospatial features efficiently for remote sensing applications.",
   "Who is this application designed for": "It is designed for WebGIS application developers and end-users who need geospatial data for analysis, such as planners, researchers, and GIS professionals.",
   "What features does this application offer": "Integration with OGC-compliant WMS services. Interactive semantic segmentation using on-device computational power. Export of user-selected features in geospatial formats like GeoJSON or KML.",
