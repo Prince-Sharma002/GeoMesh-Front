@@ -9,6 +9,9 @@ import axios from 'axios';
 import CryptoJS from 'crypto-js';
 import "../styles/map.css"
 import {Link} from "react-router-dom";
+import { kml as toGeoJSONKml } from '@tmcw/togeojson';
+
+
 
 // Fix for default marker icon in React
 delete L.Icon.Default.prototype._getIconUrl;
@@ -285,6 +288,47 @@ const GeolocationMap = () => {
       }
     };  
 
+    const handleFileUpload = (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+  
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target.result;
+  
+        if (file.name.endsWith('.geojson')) {
+          try {
+            const geojson = JSON.parse(content);
+            const newPolygons = L.geoJSON(geojson).toGeoJSON().features.map((feature) => ({
+              coordinates: feature.geometry.coordinates,
+              description: feature.properties?.description || 'No description',
+              color: feature.properties?.color || '#3388ff',
+              tag: feature.properties?.tag || 'Uncategorized',
+            }));
+            setPolygons((prev) => [...prev, ...newPolygons]);
+            alert('GeoJSON loaded successfully!');
+          } catch (err) {
+            alert('Invalid GeoJSON file!');
+          }
+        } else if (file.name.endsWith('.kml')) {
+          const parser = new DOMParser();
+          const kml = parser.parseFromString(content, 'application/xml');
+          const geojson = toGeoJSONKml(kml); // Requires toGeoJSON library
+          const newPolygons = geojson.features.map((feature) => ({
+            coordinates: feature.geometry.coordinates,
+            description: feature.properties?.description || 'No description',
+            color: feature.properties?.color || '#3388ff',
+            tag: feature.properties?.tag || 'Uncategorized',
+          }));
+          setPolygons((prev) => [...prev, ...newPolygons]);
+          alert('KML loaded successfully!');
+        } else {
+          alert('Unsupported file type!');
+        }
+      };
+      reader.readAsText(file);
+    };
+
     const handleSavePolygon = (layer) => {
       // Display a selection prompt for segment tags
       const segmentOptions = [
@@ -336,7 +380,6 @@ const GeolocationMap = () => {
 
     };
     
-
   const savePolygonToBackend = async (polygon) => {
     try {
       const response = await axios.post('https://geomesh-back.onrender.com/api/polygon', polygon);
@@ -562,7 +605,7 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
 
   return (
     <div className="map-container">
-
+{/* <input type="file" accept=".geojson,.kml" onChange={handleFileUpload} style={{ marginBottom: '10px' }} /> */}
 <div className='tagpolygondiv' style={{ width: '350px', padding: '20px', backgroundColor: '#f5f5f5', borderRight: '1px solid #ddd' }}>
       <h3>Data Export by Tag</h3>
       <select

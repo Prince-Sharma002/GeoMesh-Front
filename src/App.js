@@ -19,6 +19,7 @@ import MapComponent from './map/MapComponent';
 import AdminDashboard from './admin/AdminDashboard';
 import WmsMap from './map/WmsMap';
 import LeafletMap from './map/LeafletMap';
+import GeoJSONConverter from './map/GeoJSONConverter';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Route path="/sidebar" element={ <Sidebar /> } />
         <Route path="/map2" element={ <MapComponent /> } />
         <Route path="/admin" element={ <AdminDashboard /> } />
+        <Route path="/convert" element={ <GeoJSONConverter /> } />
 
         <Route path="/map4" element={ <GeolocationMapwithchatbot /> } />
 
