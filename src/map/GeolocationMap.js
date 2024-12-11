@@ -59,7 +59,7 @@ const GeolocationMap = () => {
   const [polygons, setPolygons] = useState([]);
   const [reviewInput, setReviewInput] = useState('');
   const [markers, setMarkers] = useState([]);
-  const [selectedLayer, setSelectedLayer] = useState('openstreetmap');
+  const [selectedLayer, setSelectedLayer] = useState('satellite');
   const [measurementMode, setMeasurementMode] = useState(false);
   const [coord, setCoord] = useState(null);
   const [userDetails, setUserDetails] = useState(null);
@@ -104,13 +104,13 @@ const GeolocationMap = () => {
 
 
   const mapLayers = {
-    openstreetmap: {
-      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      attribution: '© OpenStreetMap contributors'
-    },
     satellite: {
       url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
       attribution: '© Esri WorldImagery'
+    },
+    openstreetmap: {
+      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      attribution: '© OpenStreetMap contributors'
     },
     terrain: {
       url: 'https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{r}.png',
@@ -354,7 +354,21 @@ const GeolocationMap = () => {
         return;
       }
       // Get color input
-      const color = prompt('Enter a color for the polygon (e.g., #FF0000):') || '#3388ff';
+      let color = prompt('Enter a color') || '#3388ff';
+
+      if( color === 'red' ){
+        color = '#ff0000'
+      }
+      else if( color === 'green' ){
+        color = '#00ff00'
+      }
+      else if( color === 'blue' ){
+        color = '#0000ff'
+      }
+      else if( color === 'yellow' ){
+        color = '#ffff00'
+      }
+
       // Get description input
       const description = prompt('Enter a description for the polygon:');
       // Extract coordinates
@@ -401,7 +415,6 @@ const GeolocationMap = () => {
     };
 
     
-
 // Password for encryption
 const PASSWORD = '1234';
 

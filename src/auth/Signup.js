@@ -36,7 +36,7 @@ const Signup = () => {
   };
 
   return (
-    <div>
+    <div className='signup'>
       <Link to="/signin" style={{position : "absolute" , right : "2rem" , top : "3rem"}} >
         <button>Sign In</button>
       </Link>
