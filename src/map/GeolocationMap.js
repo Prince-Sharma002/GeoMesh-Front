@@ -67,7 +67,6 @@ const GeolocationMap = () => {
   const [searchQuery, setSearchQuery] = useState(''); // For storing search input
   const [searchResult, setSearchResult] = useState(null); // Store search result coordinates
 
-
   const [tags, setTags] = useState(['Farm', 'Rural', 'Urban' , 'Building' , 'Mountain' , 'Vehicle' , 'Road' , 'Water Body' , 'Forest' , 'Others' ]); // Define available tags
   const [selectedTag, setSelectedTag] = useState('none');
   const [tagpolygons, settagPolygons] = useState([]);
@@ -229,7 +228,7 @@ const GeolocationMap = () => {
 
     useEffect(() => {
       if (searchResult) {
-        map.setView(searchResult, 13); // Pan to the searched location with zoom level 13
+        map.setView(searchResult, 18); // Pan to the searched location with zoom level 13
       }
     }, [searchResult, map]);
 
