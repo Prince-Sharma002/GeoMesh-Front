@@ -742,9 +742,9 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
         onChange={handleInputChange}
         placeholder="Search location..."
         style={{
-          width: '300px',
+          width: '15rem',
           padding: '10px 15px',
-          marginBottom: '10px',
+          marginBottom: '-10px',
           borderRadius: '5px',
           border: '1px solid #ccc',
           boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
