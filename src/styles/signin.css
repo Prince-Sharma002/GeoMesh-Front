@@ -62,7 +62,7 @@ input:focus {
 button {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(135deg, #000000, #000000);
+  background: linear-gradient(135deg, #d468ff, #2c96ff);
   color: white;
   border: none;
   border-radius: 6px;
@@ -74,7 +74,7 @@ button {
 }
 
 button:hover {
-  background: linear-gradient(135deg, #357abd, #245a8b);
+  background: linear-gradient(135deg, #2680da, #9a42bd);
   transform: scale(1.03);
 }
 

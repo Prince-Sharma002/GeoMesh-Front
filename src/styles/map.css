@@ -18,8 +18,24 @@ body {
     position: absolute;
     top: 5px;
     left: 400px;
-    >button {
+    
+    button {
       width: 5rem;
+      padding: 14px;
+      background: linear-gradient(135deg, #ff3b3b, #ff3b3b);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 350;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    
+    button:hover {
+      background: linear-gradient(135deg, #000000, #000000);
+      transform: scale(1.03);
     }
   }
   
@@ -88,11 +104,11 @@ body {
   }
 
   .side-icons{
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
   
   .json{
-    font-size: 1.5rem;
+    font-size: 1.6rem;
   }
 
   .map-controls button:hover {

@@ -741,7 +741,19 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
         value={searchQuery}
         onChange={handleInputChange}
         placeholder="Search location..."
-        style={{ width: '300px', padding: '5px', marginBottom: '5px' }}
+        style={{
+          width: '300px',
+          padding: '10px 15px',
+          marginBottom: '10px',
+          borderRadius: '5px',
+          border: '1px solid #ccc',
+          boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+          fontSize: '16px',
+          outline: 'none',
+          transition: 'box-shadow 0.3s ease',
+        }}
+        onFocus={(e) => (e.target.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.2)')}
+        onBlur={(e) => (e.target.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.1)')}
       />
       <ul style={{ listStyleType: 'none', padding: 0 }}>
         {suggestions.map((place, index) => (
@@ -759,7 +771,7 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
           </li>
         ))}
       </ul>
-      <button onClick={handleSearch} style={{ padding: '5px' }}>
+      <button onClick={handleSearch} style={{ padding: '10px', backgroundColor : "#ffff00" }}>
         Search
       </button>
     </div>
