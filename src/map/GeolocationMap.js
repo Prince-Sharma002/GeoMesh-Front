@@ -7,9 +7,15 @@ import L from 'leaflet';
 import { EditControl } from 'react-leaflet-draw';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
-import "../styles/map.css"
 import {Link} from "react-router-dom";
 import { kml as toGeoJSONKml } from '@tmcw/togeojson';
+import "../styles/map.css"
+
+// icons
+import { BsFiletypeJson } from "react-icons/bs";
+import { FaUser } from "react-icons/fa";
+import { FaUnlock } from "react-icons/fa";
+import { PiChatsTeardropFill } from "react-icons/pi";
 
 
 
@@ -228,7 +234,7 @@ const GeolocationMap = () => {
 
     useEffect(() => {
       if (searchResult) {
-        map.setView(searchResult, 18); // Pan to the searched location with zoom level 13
+        map.setView(searchResult, 20); // Pan to the searched location with zoom level 13
       }
     }, [searchResult, map]);
 
@@ -673,16 +679,16 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
     </div>
 
     <div className="map-controls">      
-          <button onClick={exportAllToGeoJSON}>Export All to GeoJSON</button>
-          <button onClick={exportAllToKML}>Export All to KML</button>
+          <button onClick={exportAllToGeoJSON}> <BsFiletypeJson className='side-icons json' /> </button>
+          <button onClick={exportAllToKML}> KML </button>
           <Link to="/person-info">
-            <button>User</button>
+            <button> <FaUser className='side-icons' /> </button>
           </Link>
           <Link to="/decrypt">
-            <button>Decrypt</button>
+            <button> <FaUnlock className='side-icons' /> </button>
           </Link>
-          <Link className='selectedpolygon' to={'/sidebar'}>
-            <button> Tag Selected Polygon </button>
+          <Link className='selectedpolygon' to={'https://chatroom-d9caf.web.app/'}>
+            <button> <PiChatsTeardropFill className='side-icons' /> </button>
           </Link>
   
       

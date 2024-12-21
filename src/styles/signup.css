@@ -1,11 +1,11 @@
-/* Form Styling */
-.signup{
-  margin: auto;
+.signup {
   display: flex;
   align-items: center;
-  align-content: center;
-  margin: auto aut;
+  justify-content: center;
+  height: 100vh; /* Full viewport height */
+  margin: 0; /* Reset default margins */
 }
+
 
 form {
   background: linear-gradient(145deg, #ffffff, #f0f0f0);
@@ -61,7 +61,7 @@ input:focus {
 button {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(135deg, #4a90e2, #357abd);
+  background: linear-gradient(135deg, #ff714e, #67a3df);
   color: white;
   border: none;
   border-radius: 6px;
@@ -87,8 +87,8 @@ p {
 
 /* Error States */
 input:invalid {
-  border-color: #ff6b6b;
-  background-color: #fff5f5;
+  border-color: #ffffff;
+  background-color: #ffffff;
   animation: shake 0.3s ease;
 }
 
