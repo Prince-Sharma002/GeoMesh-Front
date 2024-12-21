@@ -10,12 +10,15 @@ import CryptoJS from 'crypto-js';
 import {Link} from "react-router-dom";
 import { kml as toGeoJSONKml } from '@tmcw/togeojson';
 import "../styles/map.css"
+import MapboxClient from '@mapbox/mapbox-sdk/services/geocoding';
 
 // icons
 import { BsFiletypeJson } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
 import { FaUnlock } from "react-icons/fa";
 import { PiChatsTeardropFill } from "react-icons/pi";
+
+const mapboxClient = MapboxClient({ accessToken: 'pk.eyJ1IjoiYWlzaGNoYW1hcnRoaSIsImEiOiJjbHB1Yjk2djcwajBlMmluenJvdGlucG54In0.1nBG1ilIoMJlD1xJ4mzIoA' });
 
 
 
@@ -71,11 +74,13 @@ const GeolocationMap = () => {
   const [userDetails, setUserDetails] = useState(null);
   const [name, setname] = useState("");
   const [searchQuery, setSearchQuery] = useState(''); // For storing search input
+  const [suggestions, setSuggestions] = useState([]);
   const [searchResult, setSearchResult] = useState(null); // Store search result coordinates
 
   const [tags, setTags] = useState(['Farm', 'Rural', 'Urban' , 'Building' , 'Mountain' , 'Vehicle' , 'Road' , 'Water Body' , 'Forest' , 'Others' ]); // Define available tags
   const [selectedTag, setSelectedTag] = useState('none');
   const [tagpolygons, settagPolygons] = useState([]);
+  const [userlike , setUserlike] = useState(false);
 
   
   // const mapLayers = {
@@ -206,21 +211,70 @@ const GeolocationMap = () => {
   }, [userDetails , name , setname , setUserDetails ]);
 
 
+  // const handleSearch = async () => {
+  //   if (!searchQuery) return;
+
+  //   try {
+  //     // Using OpenStreetMap's Nominatim API for geocoding
+  //     const response = await axios.get(`https://nominatim.openstreetmap.org/search`, {
+  //       params: {
+  //         q: searchQuery,
+  //         format: 'json',
+  //       },
+  //     });
+
+  //     if (response.data.length > 0) {
+  //       const result = response.data[0];
+  //       setSearchResult([parseFloat(result.lat), parseFloat(result.lon)]);
+  //     } else {
+  //       alert('Location not found!');
+  //     }
+  //   } catch (err) {
+  //     console.error('Error searching location:', err.message);
+  //   }
+  // };
+
+  const handleInputChange = async (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+
+    if (query.length > 2) {
+      try {
+        const response = await mapboxClient.forwardGeocode({
+          query,
+          autocomplete: true,
+          limit: 5,
+        }).send();
+
+        if (response.body && response.body.features) {
+          setSuggestions(response.body.features);
+        }
+      } catch (err) {
+        console.error('Error fetching suggestions:', err.message);
+      }
+    } else {
+      setSuggestions([]);
+    }
+  };
+
+  const handleSuggestionClick = (place) => {
+    setSearchResult([place.center[1], place.center[0]]);
+    setSearchQuery(place.place_name);
+    setSuggestions([]);
+  };
+
   const handleSearch = async () => {
     if (!searchQuery) return;
 
     try {
-      // Using OpenStreetMap's Nominatim API for geocoding
-      const response = await axios.get(`https://nominatim.openstreetmap.org/search`, {
-        params: {
-          q: searchQuery,
-          format: 'json',
-        },
-      });
+      const response = await mapboxClient.forwardGeocode({
+        query: searchQuery,
+        limit: 1,
+      }).send();
 
-      if (response.data.length > 0) {
-        const result = response.data[0];
-        setSearchResult([parseFloat(result.lat), parseFloat(result.lon)]);
+      if (response.body.features.length > 0) {
+        const result = response.body.features[0];
+        setSearchResult([result.center[1], result.center[0]]);
       } else {
         alert('Location not found!');
       }
@@ -272,6 +326,9 @@ const GeolocationMap = () => {
             polygon._id === id ? { ...polygon, likes: response.data.likes } : polygon
           )
         );
+
+        setUserlike(true);
+
       } catch (err) {
         console.error('Error liking polygon:', err.message);
       }
@@ -665,7 +722,7 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
       )}
     </div>
 
-    <div className='searchdiv'  style={{ padding: '10px', zIndex: 1000 }}>
+    {/* <div className='searchdiv'  style={{ padding: '10px', zIndex: 1000 }}>
         <input
           type="text"
           value={searchQuery}
@@ -676,7 +733,37 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
         <button onClick={handleSearch} style={{ padding: '5px' }}>
           Search
         </button>
+    </div> */}
+
+<div className='searchdiv'  style={{ padding: '10px', zIndex: 1000 }}  >
+      <input
+        type="text"
+        value={searchQuery}
+        onChange={handleInputChange}
+        placeholder="Search location..."
+        style={{ width: '300px', padding: '5px', marginBottom: '5px' }}
+      />
+      <ul style={{ listStyleType: 'none', padding: 0 }}>
+        {suggestions.map((place, index) => (
+          <li
+            key={index}
+            onClick={() => handleSuggestionClick(place)}
+            style={{
+              cursor: 'pointer',
+              padding: '5px',
+              borderBottom: '1px solid #ddd',
+              background: '#f9f9f9',
+            }}
+          >
+            {place.place_name}
+          </li>
+        ))}
+      </ul>
+      <button onClick={handleSearch} style={{ padding: '5px' }}>
+        Search
+      </button>
     </div>
+
 
     <div className="map-controls">      
           <button onClick={exportAllToGeoJSON}> <BsFiletypeJson className='side-icons json' /> </button>
@@ -853,7 +940,7 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
                     <li key={idx}>{review}</li>
                   ))}
                 </ul>
-                <button onClick={() => handleLike(polygon._id)}>Like</button>
+                  <button disabled={userlike} onClick={() => handleLike(polygon._id)}>Like</button>
                 <textarea
                   value={reviewInput}
                   onChange={(e) => setReviewInput(e.target.value)}
