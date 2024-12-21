@@ -68,14 +68,61 @@ body {
   .tagpolygondiv ul {
     list-style-type: none;
     padding: 0;
+    margin: 0;
   }
   
   .tagpolygondiv li {
-    background-color: #f4f4f4;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 4px;
+    background-color: #ffffff; /* Clean white background */
+    margin-bottom: 15px; /* Increased spacing for better readability */
+    padding: 15px; /* Balanced padding for spacing within the box */
+    border-radius: 8px; /* Smooth rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for a lifted effect */
+    border-left: 6px solid #4CAF50; /* Accent border for differentiation */
+    transition: transform 0.2s, box-shadow 0.2s; /* Smooth hover animation */
   }
+  
+  .tagpolygondiv li:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+    border-left: 6px solid #2E7D32; /* Darker accent on hover */
+  }
+  
+  .tagpolygondiv li strong {
+    font-weight: bold;
+    color: #333333; /* Strong text color for headings */
+  }
+  
+  .tagpolygondiv li p {
+    margin: 5px 0; /* Spacing between paragraphs */
+    font-size: 14px; /* Comfortable font size */
+    color: #666666; /* Muted text color for details */
+  }
+  
+  .tagpolygondiv li p strong {
+    color: #000000; /* Emphasis on strong text within paragraphs */
+  }
+  
+  .tagpolygondiv li .likes {
+    color: #E91E63; /* Highlight likes in a contrasting color */
+    font-weight: bold;
+  }
+  
+  .tagpolygondiv li .reviews {
+    color: #2196F3; /* Highlight reviews in a different color */
+    font-weight: bold;
+  }
+
+  .coordinates {
+    display: block; /* Ensures it behaves like a block element */
+    max-width: 100%; /* Restricts the width to the container */
+    overflow: hidden; /* Hides the overflow content */
+    white-space: nowrap; /* Prevents wrapping to a new line */
+    text-overflow: ellipsis; /* Adds '...' for overflowing text */
+    color: #666666; /* Muted text color for better readability */
+    font-size: 14px; /* Comfortable font size */
+    word-break: break-all; /* Breaks long strings if necessary */
+  }
+  
   
   /* Map Controls */
   .map-controls {
@@ -167,6 +214,16 @@ body {
     z-index: 1000;
   }
   
+  @media (min-width: 768px){
+      .map-container{
+        .searchdiv{
+          top: 2  px;
+          left: 22rem;
+        }
+      }
+  }
+
+
   /* Responsive Design */
   @media (max-width: 600px) {
     .map-container {
@@ -228,8 +285,6 @@ body {
   .mb-10 {
     margin-bottom: 10px;
   }
-
-
 
   
   .leaflet-popup-content button {

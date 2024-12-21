@@ -681,7 +681,7 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
   return (
     <div className="map-container">
 {/* <input type="file" accept=".geojson,.kml" onChange={handleFileUpload} style={{ marginBottom: '10px' }} /> */}
-<div className='tagpolygondiv' style={{ width: '350px', padding: '20px', backgroundColor: '#f5f5f5', borderRight: '1px solid #ddd' }}>
+<div className='tagpolygondiv' style={{ width: '20rem', padding: '20px', backgroundColor: '#f5f5f5', borderRight: '1px solid #ddd' }}>
       <h3>Data Export by Tag</h3>
       <select
         value={selectedTag}
@@ -706,7 +706,7 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
             <li key={polygon._id} className='popupDiv' style={{ marginBottom: '10px'  }}>
               <strong>{polygon.description}</strong>
                 <p><strong>Username:</strong> {polygon.name}</p>
-                <p><strong>Coordinates:</strong> {polygon.coordinates}</p>
+                <p  className="coordinates" style={{width : "100%"}} ><strong>Coordinates:</strong> {polygon.coordinates}</p>
                 <p><strong>Email:</strong> {polygon.email}</p>
                 <p><strong>Tag:</strong> {polygon.tag}</p>
                 <p><strong>Color:</strong> {polygon.color}</p>

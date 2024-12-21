@@ -55,16 +55,16 @@ const PersonInfo = () => {
   };
 
   return (
-    <div>
+    <div className='dashboard-container'>
       <h2>User Dashboard</h2>
       <Link to="/map" style={{position : "absolute" , right : "2rem" , top : "3rem"}} >
         <button>Map</button>
       </Link>
       {userDetails ? (
         <div>
-          <p>Welcome, {userDetails.name}</p>
-          <p>Email: {userDetails.email}</p>
-          <p>Date of Birth: {userDetails.dateOfBirth}</p>
+          <h3>Welcome, {userDetails.name}</h3>
+          <h3> Email : {userDetails.email}</h3>
+          {/* <p>Date of Birth: {userDetails.dateOfBirth}</p> */}
         </div>
       ) : (
         <p>Loading user details...</p>
@@ -75,15 +75,17 @@ const PersonInfo = () => {
         <ul>
           {polygons.map((polygon, index) => (
             <li key={index}>
-              <p>Description: {polygon.description}</p>
-              <p>
-                Coordinates: {JSON.stringify(parseCoordinates(polygon.coordinates))}
+              <p style={{textAlign : "left"}} > <strong> Description : </strong>  {polygon.description}</p>
+              <p style={{textAlign : "left"}}>
+                <strong>Coordinates</strong>: 
+                <br />
+                {JSON.stringify(parseCoordinates(polygon.coordinates))}
               </p>
-              <p>Color: {polygon.color}</p>
-              <p>Area: {polygon.area.$numberDouble || polygon.area} sq. meters</p>
-              <p>Likes: {polygon.likes.$numberInt || polygon.likes}</p>
+              <p style={{textAlign : "left"}}> <strong> Color: </strong>  {polygon.color}</p>
+              <p style={{textAlign : "left"}}> <strong> Area: </strong>  {polygon.area.$numberDouble || polygon.area} sq. meters</p>
+              <p style={{textAlign : "left"}}> <strong> Likes: </strong>  {polygon.likes.$numberInt || polygon.likes}</p>
               <div>
-                <p>Reviews:</p>
+                <p style={{textAlign : "left"}}> <strong> Reviews: </strong>  </p>
                 {polygon.reviews.length > 0 ? (
                   <ul>
                     {polygon.reviews.map((review, reviewIndex) => (
