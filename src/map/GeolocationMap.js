@@ -64,7 +64,7 @@ const CursorCoordinates = () => {
 };
 
 const GeolocationMap = () => {
-  const [initialPosition, setInitialPosition] = useState([23.1059, 72.5937]);
+  const [initialPosition, setInitialPosition] = useState([28.6334, 77.4455]);
   const [polygons, setPolygons] = useState([]);
   const [reviewInput, setReviewInput] = useState('');
   const [markers, setMarkers] = useState([]);
@@ -288,7 +288,7 @@ const GeolocationMap = () => {
 
     useEffect(() => {
       if (searchResult) {
-        map.setView(searchResult, 20); // Pan to the searched location with zoom level 13
+        map.setView(searchResult, 13); // Pan to the searched location with zoom level 13
       }
     }, [searchResult, map]);
 
@@ -431,6 +431,16 @@ const GeolocationMap = () => {
       else if( color === 'yellow' ){
         color = '#ffff00'
       }
+      else if( color === 'gray' ){
+        color = '#808080'
+      }
+      else if( color === 'pink' ){
+        color = '#FFC0CB'
+      }
+      else if( color === 'violet' ){
+        color = '#7F00FF'
+      }
+
 
       // Get description input
       const description = prompt('Enter a description for the polygon:');
@@ -802,7 +812,7 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
 
       <MapContainer 
         center={initialPosition} 
-        zoom={13} 
+        zoom={17} 
         style={{ height: '80vh', width: '100%' }}
       >
       

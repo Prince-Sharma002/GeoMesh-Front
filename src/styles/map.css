@@ -226,9 +226,10 @@ body {
 
   /* Responsive Design */
   @media (max-width: 600px) {
+
     .map-container {
       flex-direction: column;
-
+      font-size: 0.3;
       .searchdiv{
         top: 100px;
         left: 34px;
