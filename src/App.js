@@ -21,6 +21,7 @@ import WmsMap from './map/WmsMap';
 import LeafletMap from './map/LeafletMap';
 import GeoJSONConverter from './map/GeoJSONConverter';
 import Parentmap from './map/Parentmap';
+import DisasterAnalysis from './map/DisasterAnalysis';
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
       
         <Route path="/map4" element={ <GeolocationMapwithchatbot /> } />
         <Route path="/map5" element={ <Parentmap /> } />
+        <Route path="/disaster-analysis" element={ <DisasterAnalysis /> } />
 
     </Routes>
   </Router>

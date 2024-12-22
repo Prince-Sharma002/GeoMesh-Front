@@ -57,8 +57,8 @@ const PersonInfo = () => {
   return (
     <div className='dashboard-container'>
       <h2>User Dashboard</h2>
-      <Link to="/map" style={{position : "absolute" , right : "2rem" , top : "3rem"}} >
-        <button>Map</button>
+      <Link to="/map" >
+        <button style={{ float : "right" , width : "5rem" }}>Map</button>
       </Link>
       {userDetails ? (
         <div>

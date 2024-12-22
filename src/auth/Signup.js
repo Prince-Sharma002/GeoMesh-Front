@@ -66,13 +66,13 @@ const Signup = () => {
           onChange={handleChange}
           required
         />
-        <input
+        {/* <input
           type="date"
           name="dateOfBirth"
           value={formData.dateOfBirth}
           onChange={handleChange}
           required
-        />
+        /> */}
         <button type="submit">Sign Up</button>
       </form>
       {message && <p>{message}</p>}

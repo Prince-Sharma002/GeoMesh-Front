@@ -77,7 +77,7 @@ const GeolocationMap = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [searchResult, setSearchResult] = useState(null); // Store search result coordinates
 
-  const [tags, setTags] = useState(['Farm', 'Rural', 'Urban' , 'Building' , 'Mountain' , 'Vehicle' , 'Road' , 'Water Body' , 'Forest' , 'Others' ]); // Define available tags
+  const [tags, setTags] = useState(['Farm', 'Rural', 'Urban' , 'Building' , 'Mountain' , 'Vehicle' , 'Road' , 'Water Body' , 'Forest' ,  'Flooding' , 'Earthquakes' , 'hurricanes' , 'Wildfires' , 'tsunamis' , 'Others' ]); // Define available tags
   const [selectedTag, setSelectedTag] = useState('none');
   const [tagpolygons, settagPolygons] = useState([]);
   const [userlike , setUserlike] = useState(false);
@@ -403,6 +403,7 @@ const GeolocationMap = () => {
         'Road',
         'Water Body',
         'Forest',
+        'Flooding' , 'Earthquakes' , 'hurricanes' , 'Wildfires' , 'tsunamis' ,
         'Others'
       ];
       const segment = prompt(
@@ -512,6 +513,7 @@ const exportToGeoJSON = (polygon) => {
       area: polygon.area,
       likes: polygon.likes,
       reviews: polygon.reviews,
+      date: polygon.date,
     },
     geometry: {
       type: 'Polygon',
@@ -559,6 +561,7 @@ const exportAllToGeoJSON = () => {
         area: polygon.area,
         likes: polygon.likes,
         reviews: polygon.reviews,
+        date : polygon.date,
       },
       geometry: {
         type: 'Polygon',
@@ -611,6 +614,7 @@ const exporttagToGeoJSON = () => {
         area: polygon.area,
         likes: polygon.likes,
         reviews: polygon.reviews,
+        date:polygon.date,
       },
       geometry: {
         type: 'Polygon',
@@ -779,7 +783,10 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
 
     <div className="map-controls">      
           <button onClick={exportAllToGeoJSON}> <BsFiletypeJson className='side-icons json' /> </button>
-          <button onClick={exportAllToKML}> KML </button>
+          <button onClick={exportAllToKML}> <strong> KML </strong> </button>
+          <Link to="/disaster-analysis">
+            <button> <strong>  Disaster <br/> Analysis </strong>  </button>
+          </Link>
           <Link to="/person-info">
             <button> <FaUser className='side-icons' /> </button>
           </Link>
@@ -881,6 +888,7 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
       'Road',
       'Water Body',
       'Forest',
+      'Flooding' , 'Earthquakes' , 'hurricanes' , 'Wildfires' , 'tsunamis' ,
       'Others'
     ];
     const segment = prompt(
