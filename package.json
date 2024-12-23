@@ -30,6 +30,7 @@
     "react-notifications": "^1.7.4",
     "react-router-dom": "^7.0.1",
     "react-scripts": "^5.0.1",
+    "react-simple-chatbot": "^0.6.1",
     "reactflow": "^11.11.4",
     "recharts": "^2.15.0",
     "togeojson": "^0.16.0",

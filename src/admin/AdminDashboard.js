@@ -81,7 +81,7 @@ const AdminDashboard = () => {
   }, []);
 
   return (
-    <div className="admin-dashboard">
+    <div className="admin-dashboard" style={{padding:"4rem"}}>
       <h1>Admin Dashboard</h1>
 
       {/* Polygons Section */}
@@ -98,7 +98,8 @@ const AdminDashboard = () => {
                 <th>Area (sqm)</th>
                 <th>Tag</th>
                 <th>Color</th>
-                <th>Actions</th>
+                <th>Delete Polygon</th>
+                <th>Send Mail</th>
               </tr>
             </thead>
             <tbody>

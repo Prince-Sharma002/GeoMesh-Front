@@ -11,6 +11,7 @@ import {Link} from "react-router-dom";
 import { kml as toGeoJSONKml } from '@tmcw/togeojson';
 import "../styles/map.css"
 import MapboxClient from '@mapbox/mapbox-sdk/services/geocoding';
+import ChatBot from 'react-simple-chatbot'
 
 // icons
 import { BsFiletypeJson } from "react-icons/bs";
@@ -19,6 +20,7 @@ import { FaUnlock } from "react-icons/fa";
 import { PiChatsTeardropFill } from "react-icons/pi";
 import { CiChat1 } from "react-icons/ci";
 import { AiFillLike } from "react-icons/ai";
+import { FaLocationDot } from "react-icons/fa6";
 
 const mapboxClient = MapboxClient({ accessToken: 'pk.eyJ1IjoiYWlzaGNoYW1hcnRoaSIsImEiOiJjbHB1Yjk2djcwajBlMmluenJvdGlucG54In0.1nBG1ilIoMJlD1xJ4mzIoA' });
 
@@ -210,7 +212,7 @@ const GeolocationMap = () => {
     fetchUserDetails();
     fetchPolygons();
     
-  }, [userDetails , name , setname , setUserDetails ]);
+  }, [userDetails , name , setname , setUserDetails]);
 
 
   // const handleSearch = async () => {
@@ -258,6 +260,19 @@ const GeolocationMap = () => {
       setSuggestions([]);
     }
   };
+
+  const currentLocationFun = ()=>{
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setInitialPosition([position.coords.latitude, position.coords.longitude]);
+        },
+        () => setInitialPosition([40.7128, -74.0060]) // Fallback to default location
+      );
+    } else {
+      setInitialPosition([40.7128, -74.0060]);
+    }
+  }
 
   const handleSuggestionClick = (place) => {
     setSearchResult([place.center[1], place.center[0]]);
@@ -748,8 +763,8 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
         />
         <button onClick={handleSearch} style={{ padding: '5px' }}>
           Search
-        </button>
-    </div> */}
+          </button>
+          </div> */}
 
 <div className='searchdiv'  style={{ padding: '10px', zIndex: 1000 }}  >
       <input
@@ -771,6 +786,7 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
         onFocus={(e) => (e.target.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.2)')}
         onBlur={(e) => (e.target.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.1)')}
       />
+        <button onClick={currentLocationFun} style={{backgroundColor:"white"}}> <FaLocationDot /> </button>
       <ul style={{ listStyleType: 'none', padding: 0 }}>
         {suggestions.map((place, index) => (
           <li
@@ -808,7 +824,6 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
           <Link className='selectedpolygon' to={'https://chatroom-d9caf.web.app/'}>
             <button> <PiChatsTeardropFill className='side-icons' /> </button>
           </Link>
-  
     </div>
 
       <MapContainer 
@@ -994,7 +1009,65 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
         {searchResult && <PanToSearchResult />}
       </MapContainer>
 
+      {/* chatbot */}
+      <ChatBot
+  steps={[
+    {
+      id: '1',
+      message: 'Welcome! What is your name?',
+      trigger: '2',
+    },
+    {
+      id: '2',
+      user: true,
+      trigger: '3',
+    },
+    {
+      id: '3',
+      message: 'Hi {previousValue}, how can I assist you today?',
+      trigger: '4',
+    },
+    {
+      id: '4',
+      message: 'Select a topic to explore:',
+      trigger: '5',
+    },
+    {
+      id: '5',
+      options: [
+        { value: 1, label: 'Disaster Response', trigger: '6' },
+        { value: 2, label: 'Resource Management', trigger: '7' },
+        { value: 3, label: 'Segmentation Tools', trigger: '8' },
+        { value: 4, label: 'Contact Experts', trigger: '9' },
+      ],
+    },
+    {
+      id: '6',
+      message: `Effective disaster response is crucial. Explore our manual for step-by-step guidance on evacuation planning, emergency supply kits, and first responder coordination.`,
+      trigger: '5',
+    },
+    {
+      id: '7',
+      message: `Learn how to efficiently manage resources during crises. Our platform provides real-time tracking, allocation strategies, and inventory management for disaster supplies.`,
+      trigger: '5',
+    },
+    {
+      id: '8',
+      message: `Our segmentation tools assist in analyzing disaster-affected areas. Use satellite imagery and AI-powered mapping to prioritize rescue and relief operations.`,
+      trigger: '5',
+    },
+    {
+      id: '9',
+      message: `Need expert advice? Contact our network of disaster management professionals for tailored solutions and real-time decision-making support.`,
+      trigger: '5',
+    },
+  ]}
+  floating={true}
+/>
+
+
   </div>
+
   );
 };
 
