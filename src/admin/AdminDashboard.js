@@ -47,6 +47,33 @@ const AdminDashboard = () => {
     }
   };
 
+  const sendEmail = async(email , description)=>{
+    try{
+        const response = fetch('https://complain-backend.onrender.com/sendemail' , {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({to : email , subject : "Delete Alert" , text : `Yourrr segment is not up-to-date this segment is going to delete by Admin side ${description}` })
+        }
+    )
+
+    
+    if (!response.ok) {
+        // Handle non-2xx HTTP responses
+        alert( "email sent" );
+        return;
+    }
+    
+    const data = await response.json();
+    console.log("Response data:", data);
+    alert( "sent successful" );
+
+    }catch(e){
+        console.log(e)
+    }
+    }
+
   // Fetch data on component mount
   useEffect(() => {
     fetchPolygons();
@@ -67,6 +94,7 @@ const AdminDashboard = () => {
               <tr>
                 <th>ID</th>
                 <th>Description</th>
+                <th>Email</th>
                 <th>Area (sqm)</th>
                 <th>Tag</th>
                 <th>Color</th>
@@ -78,6 +106,7 @@ const AdminDashboard = () => {
                 <tr key={polygon._id}>
                   <td>{polygon._id}</td>
                   <td>{polygon.description}</td>
+                  <td>{polygon.email}</td>
                   <td>{polygon.area.toFixed(2)}</td>
                   <td>{polygon.tag}</td>
                   <td>
@@ -92,6 +121,9 @@ const AdminDashboard = () => {
                   </td>
                   <td>
                     <button onClick={() => deletePolygon(polygon._id)}>Delete</button>
+                  </td>
+                  <td>
+                    <button onClick={() => sendEmail( polygon.email , polygon.description ) }>Send Mail</button>
                   </td>
                 </tr>
               ))}

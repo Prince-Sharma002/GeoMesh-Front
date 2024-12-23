@@ -17,6 +17,8 @@ import { BsFiletypeJson } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
 import { FaUnlock } from "react-icons/fa";
 import { PiChatsTeardropFill } from "react-icons/pi";
+import { CiChat1 } from "react-icons/ci";
+import { AiFillLike } from "react-icons/ai";
 
 const mapboxClient = MapboxClient({ accessToken: 'pk.eyJ1IjoiYWlzaGNoYW1hcnRoaSIsImEiOiJjbHB1Yjk2djcwajBlMmluenJvdGlucG54In0.1nBG1ilIoMJlD1xJ4mzIoA' });
 
@@ -792,7 +794,7 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
 
 
     <div className="map-controls">      
-          <button onClick={exportAllToGeoJSON}> <BsFiletypeJson className='side-icons json' /> </button>
+          <button onClick={exportAllToGeoJSON}> <BsFiletypeJson className='side-icons json' /> Geojson </button>
           <button onClick={exportAllToKML}> <strong> KML </strong> </button>
           <Link to="/disaster-analysis">
             <button> <strong>  Disaster <br/> Analysis </strong>  </button>
@@ -807,7 +809,6 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
             <button> <PiChatsTeardropFill className='side-icons' /> </button>
           </Link>
   
-      
     </div>
 
       <MapContainer 
@@ -965,12 +966,13 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
                 <p><strong>Area:</strong> {polygon.area.toFixed(2)} sq. meters</p>
                 <p><strong>Likes:</strong> {polygon.likes}</p>
                 <p><strong>Reviews:</strong></p>
+                <p style={{display:"flex" , textAlign:"center" , alignContent:"center" , alignItems:"center"}}><strong> <Link style={{textDecoration:"none" }} to={'https://chatroom-d9caf.web.app/'}> Chat <CiChat1 style={{fontSize:"1.5rem"}} /> </Link> </strong></p>
                 <ul>
                   {polygon.reviews.map((review, idx) => (
                     <li key={idx}>{review}</li>
                   ))}
                 </ul>
-                  <button disabled={userlike} onClick={() => handleLike(polygon._id)}>Like</button>
+                  <button style={{backgroundColor : "white"}} disabled={userlike} onClick={() => handleLike(polygon._id)}> <AiFillLike /> </button>
                 <textarea
                   value={reviewInput}
                   onChange={(e) => setReviewInput(e.target.value)}
