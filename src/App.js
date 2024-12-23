@@ -22,6 +22,7 @@ import LeafletMap from './map/LeafletMap';
 import GeoJSONConverter from './map/GeoJSONConverter';
 import Parentmap from './map/Parentmap';
 import DisasterAnalysis from './map/DisasterAnalysis';
+import Usermap from './map/Usermap';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/signin" element={ <Signin /> } />
         <Route path="/person-info" element={ <PersonInfo /> } />
         <Route path="/map" element={ <GeolocationMap /> } />
+        <Route path="/user" element={ <Usermap /> } />
 
         <Route path="/map3" element={ <Parentmap /> } />
 

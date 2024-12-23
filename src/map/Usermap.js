@@ -65,7 +65,7 @@ const CursorCoordinates = () => {
   ) : null;
 };
 
-const GeolocationMap = () => {
+const Usermap = () => {
   const [initialPosition, setInitialPosition] = useState([28.6334, 77.4455]);
   const [polygons, setPolygons] = useState([]);
   const [reviewInput, setReviewInput] = useState('');
@@ -796,21 +796,11 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
     <div className="map-controls">      
           <button onClick={exportAllToGeoJSON}> <BsFiletypeJson className='side-icons json' /> Geojson </button>
           <button onClick={exportAllToKML}> <strong> KML </strong> </button>
-          <Link to="/disaster-analysis">
-            <button> <strong>  Disaster <br/> Analysis </strong>  </button>
-          </Link>
-          <Link to="/person-info">
-            <button> <FaUser className='side-icons' /> </button>
-          </Link>
           <Link to="/decrypt">
             <button> <FaUnlock className='side-icons' /> </button>
           </Link>
-          <Link className='selectedpolygon' to={'https://chatroom-d9caf.web.app/'}>
-            <button> <PiChatsTeardropFill className='side-icons' /> </button>
-          </Link>
   
     </div>
-
       <MapContainer 
         center={initialPosition} 
         zoom={17} 
@@ -877,68 +867,6 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
 
           <LayersControl.Overlay checked name="Polygons">
             <FeatureGroup>
-            <EditControl
-  position="topright"
-  onCreated={(e) => {
-    const layer = e.layer;
-    handleSavePolygon(layer);
-  }}
-  
-  onEdited={(e) => {
-    
-    const layers = e.layers;
-
-    // Prompt for tag and color once
-    const segmentOptions = [
-      'Farm',
-      'Building',
-      'Urban',
-      'Rural',
-      'Mountain',
-      'Vehicle',
-      'Road',
-      'Water Body',
-      'Forest',
-      'Flooding' , 'Earthquakes' , 'hurricanes' , 'Wildfires' , 'tsunamis' ,
-      'Others'
-    ];
-    const segment = prompt(
-      `Select a segment tag by entering the number:\n${segmentOptions
-        .map((option, index) => `${index + 1}: ${option}`)
-        .join('\n')}`
-    );
-    const segmentTag = segmentOptions[parseInt(segment, 10) - 1];
-    if (!segmentTag) {
-      alert('Invalid segment selection. Operation canceled.');
-      return;
-    }
-  
-    const color = prompt('Enter a color for the polygon (e.g., #FF0000):') || '#3388ff';
-  
-
-    layers.eachLayer((layer) => {
-      const updatedCoordinates = layer.getLatLngs()[0].map((point) => [point.lat, point.lng]);
-      console.log('Updated Coordinates:', updatedCoordinates);
-  
-      // Handle update logic as before
-      if (layer.options._id) {
-        handleUpdatePolygon(layer.options._id, updatedCoordinates, segmentTag, color);
-      }
-
-      layer.setStyle({ color });
-
-    });
-  }}
-  
-
-  draw={{
-    rectangle: true,
-    polygon: true,
-    circle: true,
-    marker: measurementMode,
-    polyline: true
-  }}
-/>
               {/* Existing Polygons */}
               {polygons.map((polygon, index) => (
                 
@@ -973,12 +901,6 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
                   ))}
                 </ul>
                   <button style={{backgroundColor : "white"}} disabled={userlike} onClick={() => handleLike(polygon._id)}> <AiFillLike /> </button>
-                <textarea
-                  value={reviewInput}
-                  onChange={(e) => setReviewInput(e.target.value)}
-                  placeholder="Add a review"
-                />
-                <button style={{fontSize:"0.8rem"}} onClick={() => handleAddReview(polygon._id)}>Add Review</button>
                 <button style={{fontSize:"0.8rem"}} onClick={() => exportToGeoJSON(polygon)}>Export to GeoJSON</button>
                 <button style={{fontSize:"0.8rem"}} onClick={() => exportToKML(polygon)}>Export to KML</button>
 
@@ -1000,4 +922,4 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
 
 
 
-export default GeolocationMap;
+export default Usermap;

@@ -54,7 +54,7 @@ const AdminDashboard = () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({to : email , subject : "Delete Alert" , text : `Yourrr segment is not up-to-date this segment is going to delete by Admin side ${description}` })
+            body: JSON.stringify({to : email , subject : "Delete Alert" , text : `Your segment is not up-to-date. It segment is going to delete by Admin side. Description :  ${description}` })
         }
     )
 
