@@ -50,7 +50,7 @@ const AdminDashboard = () => {
   const sendEmail = async(email , description , _id)=>{
     
     try{
-        const response = fetch('https://complain-backend.onrender.com/sendemail' , {
+        const response = fetch('' , {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
