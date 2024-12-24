@@ -11,7 +11,7 @@ import {Link} from "react-router-dom";
 import { kml as toGeoJSONKml } from '@tmcw/togeojson';
 import "../styles/map.css"
 import MapboxClient from '@mapbox/mapbox-sdk/services/geocoding';
-import ChatBot from 'react-simple-chatbot'
+import ChatBot from 'react-simple-chatbot';
 
 // icons
 import { BsFiletypeJson } from "react-icons/bs";
@@ -408,6 +408,35 @@ const GeolocationMap = () => {
       reader.readAsText(file);
     };
 
+
+
+    const sendEmail = async(email , description , _id , name ,date )=>{
+    
+      try{
+          const response = fetch('https://complain-backend.onrender.com/sendemail' , {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({to : email , subject : "Polygon Added" , text : `Polygon added ${description} , username : ${name},  Date : ${date} ` })
+          }
+      )
+  
+      
+      if (!response.ok) {
+          // Handle non-2xx HTTP responses
+          return;
+      }
+      
+      const data = await response.json();
+      console.log("Response data:", data);
+      alert( "sent successful" );
+  
+      }catch(e){
+          console.log(e)
+      }
+      }
+
     const handleSavePolygon = (layer) => {
       // Display a selection prompt for segment tags
       const segmentOptions = [
@@ -481,6 +510,10 @@ const GeolocationMap = () => {
 
       layer.setStyle({ color });
       savePolygonToBackend(newPolygon);
+      sendEmail("prince12845sharma@gmail.com" , description , "1234" , newPolygon.name , newPolygon.date );
+      sendEmail("rathorepratham13@gmail.com" , description , "1234" , newPolygon.name , newPolygon.date );
+      sendEmail("rameezehsan200@gmail.com" , description , "1234" , newPolygon.name , newPolygon.date );
+      sendEmail("mcuthor98@gmail.com" , description , "1234" , newPolygon.name , newPolygon.date );
 
     };
     
