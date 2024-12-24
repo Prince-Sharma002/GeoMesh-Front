@@ -458,7 +458,7 @@ const GeolocationMap = () => {
         color = '#7F00FF'
       }
       
-      if( segment ===  'flood'){
+      if( segment ===  'Flooding'){
         color = '#0000ff' // red for flooding
       }
 
