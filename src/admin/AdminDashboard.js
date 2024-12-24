@@ -47,14 +47,15 @@ const AdminDashboard = () => {
     }
   };
 
-  const sendEmail = async(email , description)=>{
+  const sendEmail = async(email , description , _id)=>{
+    
     try{
         const response = fetch('https://complain-backend.onrender.com/sendemail' , {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({to : email , subject : "Delete Alert" , text : `Your segment is not up-to-date. It segment is going to delete by Admin side. Description :  ${description}` })
+            body: JSON.stringify({to : email , subject : "Delete Alert" , text : `Your segment is not up-to-date. It segment is going to delete by Admin side. Description :  ${description}, ID :  ${_id} ` })
         }
     )
 
@@ -124,7 +125,7 @@ const AdminDashboard = () => {
                     <button onClick={() => deletePolygon(polygon._id)}>Delete</button>
                   </td>
                   <td>
-                    <button onClick={() => sendEmail( polygon.email , polygon.description ) }>Send Mail</button>
+                    <button onClick={() => sendEmail( polygon.email , polygon.description , polygon._id )  }>Send Mail</button>
                   </td>
                 </tr>
               ))}

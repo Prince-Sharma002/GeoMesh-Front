@@ -786,7 +786,7 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
         onFocus={(e) => (e.target.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.2)')}
         onBlur={(e) => (e.target.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.1)')}
       />
-        <button onClick={currentLocationFun} style={{backgroundColor:"white"}}> <FaLocationDot /> </button>
+        <button onClick={currentLocationFun} style={{backgroundColor:"red"  , marginLeft:"10px" }}> <FaLocationDot /> </button>
       <ul style={{ listStyleType: 'none', padding: 0 }}>
         {suggestions.map((place, index) => (
           <li
@@ -803,7 +803,7 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
           </li>
         ))}
       </ul>
-      <button onClick={handleSearch} style={{ padding: '10px', backgroundColor : "#ffff00" }}>
+      <button onClick={handleSearch} style={{ padding: '10px', backgroundColor : "#ff0000" }}>
         Search
       </button>
     </div>
