@@ -457,7 +457,10 @@ const GeolocationMap = () => {
       else if( color === 'violet' ){
         color = '#7F00FF'
       }
-
+      
+      if( segment ===  'flood'){
+        color = '#0000ff' // red for flooding
+      }
 
       // Get description input
       const description = prompt('Enter a description for the polygon:');
