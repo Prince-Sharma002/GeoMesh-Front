@@ -1,0 +1,100 @@
+/* General Styles */
+.admin-dashboard {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0 auto;
+    max-width: 1200px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    text-align: center;
+    color: #4CAF50;
+    margin-bottom: 2rem;
+  }
+  
+  h2 {
+    color: #333;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #4CAF50;
+    display: inline-block;
+  }
+  
+  /* Table Styles */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  
+  thead th {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  tbody td {
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  td div {
+    display: inline-block;
+  }
+  
+  /* Button Styles */
+  button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Link Button */
+  .admin-dashboard a button {
+    position: absolute;
+    font-size: 16px;
+    background-color: #2196F3;
+    top: 20px;
+    right: 20px;
+  }
+  
+  .admin-dashboard a button:hover {
+    background-color: #0b7dda;
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 768px) {
+    .admin-dashboard {
+      padding: 2rem;
+    }
+  
+    table {
+      font-size: 14px;
+    }
+  
+    button {
+      font-size: 14px;
+      padding: 6px 10px;
+    }
+  }
+  

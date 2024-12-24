@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from "react-router-dom";
+import "../styles/admin.css"
+
+
 
 const AdminDashboard = () => {
   const [polygons, setPolygons] = useState([]);
@@ -143,7 +146,7 @@ const AdminDashboard = () => {
           <table border="1" style={{ width: '100%', textAlign: 'left' }}>
             <thead>
               <tr>
-                <th>ID</th>
+       
                 <th>Name</th>
                 <th>Email</th>
                 <th>Date of Birth</th>
@@ -152,7 +155,7 @@ const AdminDashboard = () => {
             <tbody>
               {users.map((user) => (
                 <tr key={user.id}>
-                  <td>{user.id}</td>
+          
                   <td>{user.name}</td>
                   <td>{user.email}</td>
                   <td>{user.dateOfBirth}</td>
@@ -166,7 +169,7 @@ const AdminDashboard = () => {
       </section>
 
       {/* Back to Map */}
-      <Link style={{position : "absolute" , right : "3rem" , top : "3rem"}} to="/map">
+      <Link style={{position : "absolute" , right : "3rem" , top : "3rem" , padding:"3rem"}} to="/map">
         <button>Back to Map</button>
       </Link>
     </div>
