@@ -699,17 +699,18 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
 {/* <input type="file" accept=".geojson,.kml" onChange={handleFileUpload} style={{ marginBottom: '10px' }} /> */}
 <div className='tagpolygondiv' style={{ width: '20rem', padding: '20px', backgroundColor: '#f5f5f5', borderRight: '1px solid #ddd' }}>
       <h3>Data Export by Tag</h3>
-      <select
-        value={selectedTag}
-        onChange={e => setSelectedTag(e.target.value)}
-        style={{ width: '100%', padding: '8px', marginBottom: '20px' }}
-      >
-        {tags.map(tag => (
-          <option key={tag} value={tag}>
-            {tag}
-          </option>
-        ))}
-      </select>
+                <select
+            value={selectedTag}
+            onChange={(e) => setSelectedTag(e.target.value)}
+          >
+            <option value="none">Select Tag</option>
+            {tags.map((tag) => (
+              <option key={tag} value={tag}>
+                {tag}
+              </option>
+            ))}
+          </select>
+
 
       <button style={{marginBottom : "1rem"}} onClick={() => exporttagToGeoJSON()}>Export to GeoJSON</button>
 
@@ -867,21 +868,16 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
 
           <LayersControl.Overlay checked name="Polygons">
             <FeatureGroup>
-              {/* Existing Polygons */}
-              {polygons.map((polygon, index) => (
-                
-                 <Polygon
-                 key={polygon._id}
-                 positions={polygon.coordinates[0].map(([lat, lng]) => [lat, lng])}
-                 pathOptions={{ color: polygon.color }}
-                 eventHandlers={{
-                   add: (e) => {
-                     e.target.options._id = polygon._id; // Attach _id when the layer is added to the map
-                   },
-                 }}
-               >
 
-<Popup>
+            {tagpolygons.length > 0 &&
+  tagpolygons.map((polygon, index) => (
+    <Polygon
+      key={index}
+      pathOptions={{ color: polygon.color || '#3388ff' }}
+      positions={polygon.coordinates}
+    >
+
+            <Popup>
               <div className='popupDiv'>
 
                 <p style={{fontSize:"0.8rem"}}><strong>Description:</strong> {polygon.description}</p>
@@ -901,14 +897,22 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
                   ))}
                 </ul>
                   <button style={{backgroundColor : "white"}} disabled={userlike} onClick={() => handleLike(polygon._id)}> <AiFillLike /> </button>
+                <textarea
+                  value={reviewInput}
+                  onChange={(e) => setReviewInput(e.target.value)}
+                  placeholder="Add a review"
+                />
+                <button style={{fontSize:"0.8rem"}} onClick={() => handleAddReview(polygon._id)}>Add Review</button>
                 <button style={{fontSize:"0.8rem"}} onClick={() => exportToGeoJSON(polygon)}>Export to GeoJSON</button>
                 <button style={{fontSize:"0.8rem"}} onClick={() => exportToKML(polygon)}>Export to KML</button>
 
               </div>
             </Popup>
 
-                </Polygon>
-              ))}
+    </Polygon>
+  ))}
+
+
             </FeatureGroup>
           </LayersControl.Overlay>
 

@@ -1001,7 +1001,7 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
                  }}
                >
 
-<Popup>
+            <Popup>
               <div className='popupDiv'>
 
                 <p style={{fontSize:"0.8rem"}}><strong>Description:</strong> {polygon.description}</p>
