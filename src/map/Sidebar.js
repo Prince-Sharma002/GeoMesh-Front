@@ -15,7 +15,7 @@ useEffect(() => {
   if (selectedTag) {
     setLoading(true);
     axios
-      .get(`https://geomesh-back.onrender.com/api/polygons/tag?tag=${selectedTag}`)
+      .get(`https://geomesh-back-8gtx.onrender.com/api/polygons/tag?tag=${selectedTag}`)
       .then(response => {
         setPolygons(response.data);
         setLoading(false);

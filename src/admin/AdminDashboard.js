@@ -27,7 +27,7 @@ const AdminDashboard = () => {
   const fetchUsers = async () => {
     try {
 
-      const response = await axios.get('https://geomesh-back.onrender.com/api/users'); // Replace with the correct API if needed
+      const response = await axios.get('https://geomesh-back-8gtx.onrender.com/api/users'); // Replace with the correct API if needed
 
       setUsers(response.data);
     } catch (err) {
@@ -40,7 +40,7 @@ const AdminDashboard = () => {
   const deletePolygon = async (id) => {
     try {
 
-      await axios.delete(`https://geomesh-back.onrender.com/api/polygon/${id}`);
+      await axios.delete(`https://geomesh-back-8gtx.onrender.com/api/polygon/${id}`);
 
       setPolygons((prevPolygons) => prevPolygons.filter((polygon) => polygon._id !== id));
       alert('Polygon deleted successfully');
