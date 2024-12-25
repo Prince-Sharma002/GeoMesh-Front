@@ -511,9 +511,9 @@ const GeolocationMap = () => {
       layer.setStyle({ color });
       savePolygonToBackend(newPolygon);
       sendEmail("prince12845sharma@gmail.com" , description , "1234" , newPolygon.name , newPolygon.date );
-      sendEmail("rathorepratham13@gmail.com" , description , "1234" , newPolygon.name , newPolygon.date );
-      sendEmail("rameezehsan200@gmail.com" , description , "1234" , newPolygon.name , newPolygon.date );
-      sendEmail("mcuthor98@gmail.com" , description , "1234" , newPolygon.name , newPolygon.date );
+      sendEmail("nikitasmcsnes@gmail.com" , description , "1234" , newPolygon.name , newPolygon.date );
+      sendEmail("utkarshaggarwalcse@gmail.com" , description , "1234" , newPolygon.name , newPolygon.date );
+      sendEmail("i5hreyaa30@gmail.com" , description , "1234" , newPolygon.name , newPolygon.date );
 
     };
     
