@@ -57,10 +57,17 @@ const PersonInfo = () => {
   return (
     <div className='dashboard-container'>
       <h2>User Dashboard</h2>
-      <Link to="/map" >
+
+    { userDetails && userDetails.isAdmin  &&     <Link to="/map" >
         <button style={{ float : "right" , width : "5rem" }}>Map</button>
-      </Link>
+      </Link> }
+
+      { userDetails && !userDetails.isAdmin  &&     <Link to="/user" >
+        <button style={{ float : "right" , width : "5rem" }}>Map</button>
+      </Link> }
+
       {userDetails ? (
+        
         <div>
           <h3>Welcome, {userDetails.name}</h3>
           <h3> Email : {userDetails.email}</h3>
@@ -69,6 +76,7 @@ const PersonInfo = () => {
       ) : (
         <p>Loading user details...</p>
       )}
+
 
       <h3>User Polygons</h3>
       {polygons.length > 0 ? (

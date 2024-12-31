@@ -800,6 +800,9 @@ const handleUpdatePolygon = async (id, coordinates, tag, color) => {
           <Link to="/decrypt">
             <button> <FaUnlock className='side-icons' /> </button>
           </Link>
+          <Link to="/person-info">
+            <button> <FaUser className='side-icons' /> </button>
+          </Link>
   
     </div>
       <MapContainer 
