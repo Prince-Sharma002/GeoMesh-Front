@@ -22,7 +22,6 @@ SegMap is an interactive smart mapping platform designed for disaster management
 
 ## 🖼️ Screenshots
 
-> Add screenshots to an `/assets/` folder in your repo and update the image paths below.
 
 ### 📌 Dashboard View
 ![Dashboard](./assets/dashboard.png)
@@ -76,19 +75,4 @@ Feel free to fork the repository and submit pull requests. Suggestions and impro
 
 This project is licensed under the **MIT License**.
 
-## 📬 Contact
 
-For any queries or contributions, feel free to reach out via [GitHub](https://github.com/Prince-Sharma002).
-
-```
-
----
-
-### ✅ To Add Screenshots
-
-1. Create a folder named `assets` inside your GitHub repo.
-2. Add images like `dashboard.png`, `mapping.png`, and `chat.png`.
-3. Make sure the paths match `./assets/<image>.png` in the markdown file.
-
-Let me know if you want help optimizing or compressing the screenshots before uploading!
-```
