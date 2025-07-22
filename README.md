@@ -3,6 +3,9 @@
 
 SegMap is an interactive smart mapping platform designed for disaster management and environmental monitoring. It provides real-time polygon mapping, feedback system, and disaster analysis using various charts and real-time messaging features.
 
+### 📌 Polygon Mapping
+![Mapping](/src/assets/map.png)
+
 ## 🔥 Highlights
 - Built an **interactive real-time disaster mapping web application** with polygon drawing, feedback system, and real-time messaging.
 - Enabled authorities to **visualize high-risk areas** and **communicate faster** during emergencies.
@@ -26,8 +29,6 @@ SegMap is an interactive smart mapping platform designed for disaster management
 ### 📌 Dashboard View
 ![Dashboard](/src/assets/dashboard.png)
 
-### 📌 Polygon Mapping
-![Mapping](/src/assets/map.png)
 
 ### 📌 Analysis Panel
 ![Chat](/src/assets/analysis.png)
