@@ -1,14 +1,4 @@
-Here’s the **full updated `README.md` file content** including:
 
-* Your feature summary
-* Tech stack
-* Screenshot section (you can add images in `/assets/` or any folder of your choice)
-
----
-
-### 📄 `README.md` content:
-
-````markdown
 # SegMap: Smart AI Disaster Management Software
 
 SegMap is an interactive smart mapping platform designed for disaster management and environmental monitoring. It provides real-time polygon mapping, feedback system, and disaster analysis using various charts and real-time messaging features.
@@ -43,7 +33,8 @@ SegMap is an interactive smart mapping platform designed for disaster management
 ### 📌 Real-time Chat
 ![Chat](./assets/chat.png)
 
----
+
+
 
 ## 🛠 Installation & Setup
 
