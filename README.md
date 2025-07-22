@@ -27,7 +27,7 @@ SegMap is an interactive smart mapping platform designed for disaster management
 ![Dashboard](./assets/dashboard.png)
 
 ### 📌 Polygon Mapping
-![Mapping](.src/assets/Map.png)
+![Mapping](/src/assets/map.png)
 
 ### 📌 Real-time Chat
 ![Chat](./assets/chat.png)
